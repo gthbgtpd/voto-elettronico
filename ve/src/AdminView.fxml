@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminViewController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Sessioni di voto">
+          <items>
+            <MenuItem fx:id="createSession" mnemonicParsing="false" onAction="#handleCreateSession" text="Crea nuova sessione di voto" />
+            <MenuItem fx:id="modifySession" mnemonicParsing="false" onAction="#handleModifySession" text="Modifica sessione di voto" />
+            <MenuItem fx:id="result" mnemonicParsing="false" onAction="#handleResult" text="Visualizza esiti" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Inserisci canndidati">
+          <items>
+            <MenuItem fx:id="insert" mnemonicParsing="false" onAction="#handleInsert" text="Inserisci" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <AnchorPane prefHeight="398.0" prefWidth="640.0">
+         <children>
+            <Pane fx:id="createSessionPane" prefHeight="373.0" prefWidth="640.0" visible="false">
+               <children>
+                  <Button fx:id="creaSessione" layoutX="472.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleCreaSessione" text="crea" />
+                  <TextField fx:id="nameSession" layoutX="14.0" layoutY="24.0" prefHeight="24.0" prefWidth="219.0" promptText="Nome sessione" />
+                  <MenuButton fx:id="modalitaVoto" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Modalità di voto">
+                     <items>
+                        <MenuItem fx:id="cOrdinario" mnemonicParsing="false" onAction="#handleCOrdinario" text="Ordinario" />
+                        <MenuItem fx:id="cCategorico" mnemonicParsing="false" onAction="#handleCCategorico" text="Categorico" />
+                        <MenuItem fx:id="cCategoricoConP" mnemonicParsing="false" onAction="#handleCCategoricoConP" text="Categorico con preferenza" />
+                        <MenuItem fx:id="cRef" mnemonicParsing="false" onAction="#handleCRef" text="Referendum" />
+                     </items>
+                  </MenuButton>
+                  <MenuButton fx:id="modalitaVincita" layoutX="242.0" layoutY="70.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Modalità di vincita">
+                     <items>
+                        <MenuItem fx:id="cMaggioranza" mnemonicParsing="false" onAction="#handleCMaggioranza" text="Maggioranza" />
+                        <MenuItem fx:id="cMaggioranzaAss" mnemonicParsing="false" onAction="#handleCMaggioranzaAss" text="Maggioranza assoluta" />
+                        <MenuItem fx:id="cRefConQ" mnemonicParsing="false" onAction="#handleCRefConQ" text="Referendum con quorum" />
+                        <MenuItem fx:id="crefSenzaQ" mnemonicParsing="false" onAction="#handleCRefSenzaQ" text="Referendum senza quorum" />
+                     </items>
+                  </MenuButton>
+               </children></Pane>
+            <Pane fx:id="modifySessionPane" prefHeight="373.0" prefWidth="640.0" visible="false">
+               <children>
+                  <MenuButton fx:id="mScegliSessione" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Sessione" />
+                  <TextField fx:id="modificaNomeSessione" layoutX="14.0" layoutY="71.0" prefHeight="24.0" prefWidth="219.0" promptText="Nuovo nome" />
+                  <MenuButton fx:id="modificaModalitaVoto" layoutX="14.0" layoutY="115.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Modalità di voto">
+                     <items>
+                        <MenuItem fx:id="mOrdinario" mnemonicParsing="false" onAction="#handleMOrdinario" text="Ordinario" />
+                        <MenuItem fx:id="mCategorico" mnemonicParsing="false" onAction="#handleMCategorico" text="Categorico" />
+                        <MenuItem fx:id="MCategoricoConP" mnemonicParsing="false" onAction="#handleMCategoricoConP" text="Categorico con preferenza" />
+                        <MenuItem fx:id="mReferendum" mnemonicParsing="false" onAction="#handleMReferendum" text="Referendum" />
+                     </items>
+                  </MenuButton>
+                  <MenuButton fx:id="modificaModalitaVincita" layoutX="250.0" layoutY="115.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Modalità di vincita">
+                     <items>
+                        <MenuItem fx:id="mMaggioranza" mnemonicParsing="false" onAction="#handleMMaggioranza" text="Maggioranza" />
+                        <MenuItem fx:id="mMaggioranzaAss" mnemonicParsing="false" onAction="#handleMMaggioranzaAss" text="Maggioranza assoluta" />
+                        <MenuItem fx:id="mRefConQ" mnemonicParsing="false" onAction="#handleMRefConQ" text="Referendum con quorum" />
+                        <MenuItem fx:id="mRefSenzaQ" mnemonicParsing="false" onAction="#handleRefSenzaQ" text="Referendum senza quorum" />
+                     </items>
+                  </MenuButton>
+                  <Button fx:id="modificaSessione" layoutX="484.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleModificaSessione" text="modifica" />
+                  <CheckBox fx:id="isOpen" layoutX="250.0" layoutY="74.0" mnemonicParsing="false" text="Sessione di voto è aperta" />
+               </children></Pane>
+            <Pane fx:id="viewResultPane" prefHeight="373.0" prefWidth="640.0" visible="false">
+               <children>
+                  <MenuButton fx:id="vScegliSessione" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Sessione" />
+                  <TableView fx:id="table" layoutX="14.0" layoutY="76.0" prefHeight="290.0" prefWidth="265.0" />
+                  <Label layoutX="360.0" layoutY="76.0" text="Vincitore:" />
+                  <Label fx:id="nomeVincitore" layoutX="360.0" layoutY="106.0" text="Label" visible="false" />
+                  <Button fx:id="visualizza" layoutX="14.0" layoutY="45.0" mnemonicParsing="false" onAction="#handleVisualizza" text="visualizza" />
+               </children></Pane>
+            <Pane fx:id="insertCandidatesPane" prefHeight="373.0" prefWidth="640.0" visible="false">
+               <children>
+                  <TextField fx:id="candidates" layoutX="21.0" layoutY="113.0" prefHeight="24.0" prefWidth="219.0" promptText="Candidates" />
+                  <Button fx:id="aggiungiCandidato" layoutX="293.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleAggiungiCandidato" text="aggiungi" />
+                  <MenuButton fx:id="aScegliSessione" layoutX="21.0" layoutY="42.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Sessione" />
+               </children></Pane>
+         </children>
+      </AnchorPane>
+  </children>
+</VBox>
