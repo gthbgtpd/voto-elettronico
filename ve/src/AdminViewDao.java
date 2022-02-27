@@ -11,7 +11,7 @@ import javafx.scene.control.MenuItem;
 
 public class AdminViewDao {
 	private static Connection getConnection() throws SQLException {
-	  	final String url = "jdbc:postgresql://localhost/sistemavoto?user=root&password=rootroot";
+	  	final String url = "jdbc:postgresql://localhost/votoelettronico?user=root&password=rootroot";
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url);
@@ -24,7 +24,7 @@ public class AdminViewDao {
 	public static int getId(String name) throws SQLException {
 		int items = 0;
 		Connection conn = getConnection();
-		String sql = "select id from session where name=?" ;
+		String sql = "select id from voto.session where name=?" ;
 		PreparedStatement query = conn.prepareStatement(sql);
 		query.setString(1, name);
         ResultSet res = query.executeQuery();
@@ -37,7 +37,7 @@ public class AdminViewDao {
 	public static int getLastId() throws SQLException {
 		int items = 0;
 		Connection conn = getConnection();
-		String sql = "select id from session" ;
+		String sql = "select id from voto.session" ;
 		PreparedStatement query = conn.prepareStatement(sql);
         ResultSet res = query.executeQuery();
         while ( res.next() ) {
@@ -48,7 +48,7 @@ public class AdminViewDao {
 	
 	public static void createSession(String name, String modeVote, String modeWin) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("insert into session(name, modeVote, modeWin) values(?, ?, ?)");
+		PreparedStatement query1 = conn.prepareStatement("insert into voto.session(name, modeVote, modeWin) values(?, ?, ?)");
 		//query1.setInt(1, getLastId()+1);
         query1.setString(1, name);
         query1.setString(2, modeVote);
@@ -59,7 +59,7 @@ public class AdminViewDao {
 	
 	public static void modifySession(String oldName, String name, String modeVote, String modeWin, boolean isOpen) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("update session set name=?, modeVote=?, modeWin=?, isOpen=? where id=?");
+		PreparedStatement query1 = conn.prepareStatement("update voto.session set name=?, modeVote=?, modeWin=?, isOpen=? where id=?");
         query1.setString(1, name);
         query1.setString(2, modeVote);
         query1.setString(3, modeWin);
@@ -72,7 +72,7 @@ public class AdminViewDao {
 	public static String getModeVote(String name) throws SQLException {
 		String s = "";
 		Connection conn = getConnection();
-		String sql = "select modeVote from session where name=?" ;
+		String sql = "select modeVote from voto.session where name=?" ;
 		PreparedStatement query = conn.prepareStatement(sql);
 		query.setString(1, name);
 		ResultSet r = query.executeQuery();
@@ -85,7 +85,7 @@ public class AdminViewDao {
 	public static String getModeWin(String name) throws SQLException {
 		String s = "";
 		Connection conn = getConnection();
-		String sql = "select modeWin from session where name=?" ;
+		String sql = "select modeWin from voto.session where name=?" ;
 		PreparedStatement query = conn.prepareStatement(sql);
 		query.setString(1, name);
 		ResultSet r = query.executeQuery();
@@ -97,7 +97,7 @@ public class AdminViewDao {
 	
 	public static void addCandidate(String session, String candidate) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("insert into candidates(idSession, name) values(?, ?)");
+		PreparedStatement query1 = conn.prepareStatement("insert into voto.candidates(idSession, name) values(?, ?)");
 		query1.setInt(1, getId(session));
         query1.setString(2, candidate);
         @SuppressWarnings("unused")
@@ -108,7 +108,7 @@ public class AdminViewDao {
 		scegliSessione.getItems().clear();
 		List<String> l = new ArrayList<>();
 		Connection conn = getConnection();
-		String sql = "select name from session" ;
+		String sql = "select name from voto.session" ;
 		PreparedStatement query = conn.prepareStatement(sql);
 		ResultSet r = query.executeQuery();
 		while(r.next()) {
@@ -123,7 +123,7 @@ public class AdminViewDao {
 	
 	public static List<List<String>> getVote(String session) throws SQLException {
 		Connection conn = getConnection();
-		String sql = "select name, preferenza from candidates where idsession=?";
+		String sql = "select name, preferenza from voto.candidates where idsession=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, getId(session));
 		ResultSet r = stmt.executeQuery();
