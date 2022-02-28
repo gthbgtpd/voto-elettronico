@@ -111,8 +111,9 @@
                         <MenuItem fx:id="mRefSenzaQ" mnemonicParsing="false" onAction="#handleRefSenzaQ" text="Referendum senza quorum" />
                      </items>
                   </MenuButton>
-                  <Button fx:id="modificaSessione" layoutX="484.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleModificaSessione" text="modifica" />
-                  <CheckBox fx:id="isOpen" layoutX="250.0" layoutY="74.0" mnemonicParsing="false" text="Sessione di voto è aperta" />
+                  <Button fx:id="modificaSessione" layoutX="487.0" layoutY="162.0" mnemonicParsing="false" onAction="#handleModificaSessione" text="modifica" />
+                  <TextField fx:id="dataApertura" layoutX="14.0" layoutY="162.0" prefHeight="25.0" prefWidth="219.0" promptText="aaaa/mm/gg" />
+                  <TextField fx:id="dataChiusura" layoutX="253.0" layoutY="162.0" prefHeight="25.0" prefWidth="219.0" promptText="aaaa/mm/gg" />
                </children></Pane>
             <Pane fx:id="viewResultPane" prefHeight="373.0" prefWidth="640.0" visible="false">
                <children>
@@ -125,8 +126,9 @@
             <Pane fx:id="insertCandidatesPane" prefHeight="373.0" prefWidth="640.0" visible="false">
                <children>
                   <TextField fx:id="candidates" layoutX="21.0" layoutY="113.0" prefHeight="24.0" prefWidth="219.0" promptText="Candidates" />
-                  <Button fx:id="aggiungiCandidato" layoutX="293.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleAggiungiCandidato" text="aggiungi" />
+                  <Button fx:id="aggiungiCandidato" layoutX="540.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleAggiungiCandidato" text="aggiungi" />
                   <MenuButton fx:id="aScegliSessione" layoutX="21.0" layoutY="42.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Sessione" />
+                  <CheckBox fx:id="isGroup" layoutX="284.0" layoutY="117.0" mnemonicParsing="false" text="partito/gruppo" />
                </children></Pane>
          </children>
       </AnchorPane>

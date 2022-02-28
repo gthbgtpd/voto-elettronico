@@ -43,14 +43,18 @@ public class AdminViewSetting {
 		
 		TableColumn<Vote, String> columnCandidato;
 		columnCandidato = new TableColumn<>("Candidato");
-		columnCandidato.setCellValueFactory(new PropertyValueFactory<Vote, String>("candidate"));
+		columnCandidato.setCellValueFactory(new PropertyValueFactory<Vote, String>("idCandidates"));
+		
+		TableColumn<Vote, String> columnSession;
+		columnSession = new TableColumn<>("Sessione");
+		columnSession.setCellValueFactory(new PropertyValueFactory<Vote, String>("idSession"));
 		
 		TableColumn<Vote, String> columnVoto;
 		columnVoto = new TableColumn<>("Voto");
 		columnVoto.setCellValueFactory(new PropertyValueFactory<Vote, String>("preferenza"));
 		
 		table.setItems(lst);
-		table.getColumns().addAll(columnCandidato, columnVoto);
+		table.getColumns().addAll(columnCandidato, columnSession, columnVoto);
 		
 	}
 }

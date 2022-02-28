@@ -1,5 +1,7 @@
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -23,7 +25,8 @@ public class AdminViewController {
     @FXML private Pane modifySessionPane;
     @FXML private MenuButton mScegliSessione;
     @FXML private TextField modificaNomeSessione;
-    @FXML private CheckBox isOpen;
+    @FXML private TextField dataApertura;
+    @FXML private TextField dataChiusura;
     @FXML private MenuButton modificaModalitaVincita;
     @FXML private MenuButton modificaModalitaVoto;
     @FXML private Button modificaSessione;
@@ -32,6 +35,7 @@ public class AdminViewController {
     @FXML private MenuButton aScegliSessione;
     @FXML private TextField candidates;
     @FXML private Button aggiungiCandidato;
+    @FXML private CheckBox isGroup;
 //viewResultPane
     @FXML private Pane viewResultPane;
     @FXML private MenuButton vScegliSessione;
@@ -119,12 +123,13 @@ public class AdminViewController {
     @FXML
     void handleModificaSessione(ActionEvent event) throws SQLException {
     	if (event.getSource()==modificaSessione) {
-    		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), isOpen.isSelected());
+    		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), Date.valueOf(dataApertura.getText()), Date.valueOf(dataChiusura.getText()));
     		mScegliSessione.setText("Sessione");
     		modificaNomeSessione.setText("");
-    		isOpen.setSelected(false);
     		modificaModalitaVoto.setText("Modalità di voto");
     		modificaModalitaVincita.setText("Modalità di vincita");
+    		dataApertura.setText("");
+    		dataChiusura.setText("");
     		
     		AdminViewDao.getSessions(mScegliSessione);
         	AdminViewDao.getSessions(aScegliSessione);
@@ -139,9 +144,10 @@ public class AdminViewController {
     @FXML
     void handleAggiungiCandidato(ActionEvent event) throws SQLException {
     	if (event.getSource()==aggiungiCandidato) {
-    		AdminViewDao.addCandidate(aScegliSessione.getText(), candidates.getText());
+    		AdminViewDao.addCandidate(aScegliSessione.getText(), candidates.getText(), isGroup.isSelected());
     		aScegliSessione.setText("Sessione");
     		candidates.setText("");
+    		isGroup.setSelected(false);
     	}
     }
     
@@ -153,7 +159,7 @@ public class AdminViewController {
     		try {
     			v = AdminViewDao.getVote(vScegliSessione.getText());
     			for (List<String> j:v) {
-        			lst.add(new Vote(j.get(0), j.get(1)));
+        			lst.add(new Vote(j.get(0), j.get(1), j.get(2)));
         		}
     		} catch (SQLException e1) {
     			// TODO Auto-generated catch block
@@ -197,7 +203,6 @@ public class AdminViewController {
         assert createSessionPane != null : "fx:id=\"createSessionPane\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert crefSenzaQ != null : "fx:id=\"crefSenzaQ\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert insertCandidatesPane != null : "fx:id=\"insertCandidatesPane\" was not injected: check your FXML file 'AdminView.fxml'.";
-        assert isOpen != null : "fx:id=\"isOpen\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mCategorico != null : "fx:id=\"mCategorico\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mMaggioranza != null : "fx:id=\"mMaggioranza\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mMaggioranzaAss != null : "fx:id=\"mMaggioranzaAss\" was not injected: check your FXML file 'AdminView.fxml'.";
@@ -218,6 +223,9 @@ public class AdminViewController {
         assert table != null : "fx:id=\"table\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert vScegliSessione != null : "fx:id=\"vScegliSessione\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert viewResultPane != null : "fx:id=\"viewResultPane\" was not injected: check your FXML file 'AdminView.fxml'.";
+        assert dataApertura != null : "fx:id=\"dataApertura\" was not injected: check your FXML file 'AdminView.fxml'.";
+        assert dataChiusura != null : "fx:id=\"dataChiusura\" was not injected: check your FXML file 'AdminView.fxml'.";
+        assert isGroup != null : "fx:id=\"isGroup\" was not injected: check your FXML file 'AdminView.fxml'.";
 
 		AdminViewDao.getSessions(mScegliSessione);
        	AdminViewDao.getSessions(aScegliSessione);

@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +22,7 @@ public class AdminViewDao {
 		return conn;
 	}
 	
-	public static int getId(String name) throws SQLException {
+	/*public static int getId(String name) throws SQLException {
 		int items = 0;
 		Connection conn = getConnection();
 		String sql = "select id from voto.session where name=?" ;
@@ -32,12 +33,25 @@ public class AdminViewDao {
         	items = res.getInt("id");
         }
 		return items;
-	}
+	}*/
 	
-	public static int getLastId() throws SQLException {
+	public static int getId(String table, String name) throws SQLException {
 		int items = 0;
 		Connection conn = getConnection();
-		String sql = "select id from voto.session" ;
+		String sql = "select id from "+table+" where name=?" ;
+		PreparedStatement query = conn.prepareStatement(sql);
+		query.setString(1, name);
+        ResultSet res = query.executeQuery();
+        while ( res.next() ) {
+        	items = res.getInt("id");
+        }
+		return items;
+	}
+	
+	public static int getLastId(String table) throws SQLException {
+		int items = 0;
+		Connection conn = getConnection();
+		String sql = "select id from "+table ;
 		PreparedStatement query = conn.prepareStatement(sql);
         ResultSet res = query.executeQuery();
         while ( res.next() ) {
@@ -48,23 +62,24 @@ public class AdminViewDao {
 	
 	public static void createSession(String name, String modeVote, String modeWin) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("insert into voto.session(name, modeVote, modeWin) values(?, ?, ?)");
-		//query1.setInt(1, getLastId()+1);
-        query1.setString(1, name);
-        query1.setString(2, modeVote);
-        query1.setString(3, modeWin);
+		PreparedStatement query1 = conn.prepareStatement("insert into voto.session(id, name, modeVote, modeWin) values(?, ?, ?, ?)");
+		query1.setInt(1, getLastId("voto.session")+1);
+        query1.setString(2, name);
+        query1.setString(3, modeVote);
+        query1.setString(4, modeWin);
         @SuppressWarnings("unused")
 		boolean res = query1.execute();
 	}
 	
-	public static void modifySession(String oldName, String name, String modeVote, String modeWin, boolean isOpen) throws SQLException {
+	public static void modifySession(String oldName, String name, String modeVote, String modeWin, Date dataApertura, Date dataChiusura) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("update voto.session set name=?, modeVote=?, modeWin=?, isOpen=? where id=?");
+		PreparedStatement query1 = conn.prepareStatement("update voto.session set name=?, modeVote=?, modeWin=?, dataapertura=?, datachiustura=? where id=?");
         query1.setString(1, name);
         query1.setString(2, modeVote);
         query1.setString(3, modeWin);
-        query1.setBoolean(4, isOpen);
-        query1.setInt(5, getId(oldName));
+        query1.setDate(4, dataApertura);
+        query1.setDate(4, dataChiusura);
+        query1.setInt(5, getId("voto.session", oldName));
         @SuppressWarnings("unused")
 		int res = query1.executeUpdate();
 	}
@@ -95,11 +110,13 @@ public class AdminViewDao {
 		return s;
 	}
 	
-	public static void addCandidate(String session, String candidate) throws SQLException {
+	public static void addCandidate(String session, String candidate, boolean isGroup) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("insert into voto.candidates(idSession, name) values(?, ?)");
-		query1.setInt(1, getId(session));
-        query1.setString(2, candidate);
+		PreparedStatement query1 = conn.prepareStatement("insert into voto.candidates(id, idSession, name, isParty) values(?, ?, ?, ?)");
+		query1.setInt(1, getLastId("voto.candidates")+1);
+		query1.setInt(2, getId("voto.session", session));
+        query1.setString(3, candidate);
+        query1.setBoolean(4, isGroup);
         @SuppressWarnings("unused")
 		boolean res = query1.execute();
 	}
@@ -123,15 +140,17 @@ public class AdminViewDao {
 	
 	public static List<List<String>> getVote(String session) throws SQLException {
 		Connection conn = getConnection();
-		String sql = "select name, preferenza from voto.candidates where idsession=?";
+		String sql = "select idsession, idcandidates, preferenza from voto.vote where idsession=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, getId(session));
+		stmt.setInt(1, getId("voto.session", session));
 		ResultSet r = stmt.executeQuery();
 		List<List<String>> le = new ArrayList<>();
 		
 		while(r.next()) {
 			List<String> li = new ArrayList<>();
-			li.add(r.getString("name"));
+			//li.add(r.getString("name"));
+			li.add(String.valueOf(r.getInt("idsession")));
+			li.add(String.valueOf(r.getInt("idcandidates")));
 			li.add(String.valueOf(r.getInt("preferenza")));
 			le.add(li);
 		}
