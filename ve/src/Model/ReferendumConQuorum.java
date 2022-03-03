@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Map;
 
-public class ReferendumConQuorum implements DefinizioneVotoStrategy {
+public class ReferendumConQuorum implements ModalitaVincitaStrategy {
 
 	/**
 	 * Post-condizioni: se la maggioranza degli aventi diritto avrà esposto la propria preferenza 
