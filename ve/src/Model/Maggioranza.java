@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Map;
 
-public class Maggioranza implements DefinizioneVotoStrategy {
+public class Maggioranza implements ModalitaVincitaStrategy {
 
 	@Override
 	public Votable definizioneVincitore(Map<Votable, Integer> votes, int numVoters) {
