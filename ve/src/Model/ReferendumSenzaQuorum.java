@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Map;
 
-public class ReferendumSenzaQuorum implements DefinizioneVotoStrategy {
+public class ReferendumSenzaQuorum implements ModalitaVincitaStrategy {
 
 	@Override
 	public Votable definizioneVincitore(Map<Votable, Integer> votes, int numVoters) {
