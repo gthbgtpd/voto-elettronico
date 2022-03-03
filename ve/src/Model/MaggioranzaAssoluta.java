@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Map;
 
-public class MaggioranzaAssoluta implements DefinizioneVotoStrategy {
+public class MaggioranzaAssoluta implements ModalitaVincitaStrategy {
 
 	/**
 	 * Post-condizioni: se il candidato che ha raggiunto il numero massimo di voti ha ottenuto la preferenza di almeno il 50% +1 dei voti
