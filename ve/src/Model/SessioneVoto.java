@@ -30,7 +30,7 @@ public class SessioneVoto {
     
     private int howManyHaveVoted;
     
-    private DefinizioneVotoStrategy definizioneVincitore;
+    private ModalitaVincitaStrategy definizioneVincitore;
     
     private Date beginningDate;
     
@@ -147,11 +147,11 @@ public class SessioneVoto {
 		return name;
 	}
 
-	public DefinizioneVotoStrategy getDefinizioneVincitore() {
+	public ModalitaVincitaStrategy getDefinizioneVincitore() {
 		return definizioneVincitore;
 	}
 
-	public void setDefinizioneVincitore(DefinizioneVotoStrategy definizioneVincitore) {
+	public void setDefinizioneVincitore(ModalitaVincitaStrategy definizioneVincitore) {
 		this.definizioneVincitore = definizioneVincitore;
 	}
 
