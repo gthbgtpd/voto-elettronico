@@ -1,21 +1,21 @@
 
 public class Vote {
-	private String idSession;
-	private String idCandidates;
+	private String session;
+	private String candidate;
 	private String preferenza;
 	
 	public Vote(String s, String c, String p) {
-		idSession = s;
-		idCandidates = c;
+		session = s;
+		candidate = c;
 		preferenza = p;
 	}
 	
-	public String getIdSession() {
-		return idSession;
+	public String getSession() {
+		return session;
 	}
 	
-	public String getIdCandidates() {
-		return idCandidates;
+	public String getCandidate() {
+		return candidate;
 	}
 	
 	public String getPreferenza() {

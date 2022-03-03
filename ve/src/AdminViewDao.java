@@ -140,7 +140,7 @@ public class AdminViewDao {
 	
 	public static List<List<String>> getVote(String session) throws SQLException {
 		Connection conn = getConnection();
-		String sql = "select idsession, idcandidates, preferenza from voto.vote where idsession=?";
+		String sql = "select s.name, c.name, v.preferenza from voto.vote as v join voto.session as s on v.idsession=s.id join voto.candidates as c on v.idcandidates=c.id where v.idsession=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, getId("voto.session", session));
 		ResultSet r = stmt.executeQuery();
@@ -148,9 +148,8 @@ public class AdminViewDao {
 		
 		while(r.next()) {
 			List<String> li = new ArrayList<>();
-			//li.add(r.getString("name"));
-			li.add(String.valueOf(r.getInt("idsession")));
-			li.add(String.valueOf(r.getInt("idcandidates")));
+			li.add(r.getString(1));
+			li.add(r.getString(2));
 			li.add(String.valueOf(r.getInt("preferenza")));
 			le.add(li);
 		}

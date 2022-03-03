@@ -41,20 +41,20 @@ public class AdminViewSetting {
 	public static void setTable(TableView<Vote> table, ObservableList<Vote> lst) throws SQLException {
 		table.setEditable(true);
 		
-		TableColumn<Vote, String> columnCandidato;
-		columnCandidato = new TableColumn<>("Candidato");
-		columnCandidato.setCellValueFactory(new PropertyValueFactory<Vote, String>("idCandidates"));
-		
 		TableColumn<Vote, String> columnSession;
 		columnSession = new TableColumn<>("Sessione");
-		columnSession.setCellValueFactory(new PropertyValueFactory<Vote, String>("idSession"));
+		columnSession.setCellValueFactory(new PropertyValueFactory<Vote, String>("session"));
+		
+		TableColumn<Vote, String> columnCandidato;
+		columnCandidato = new TableColumn<>("Candidato");
+		columnCandidato.setCellValueFactory(new PropertyValueFactory<Vote, String>("candidate"));
 		
 		TableColumn<Vote, String> columnVoto;
 		columnVoto = new TableColumn<>("Voto");
 		columnVoto.setCellValueFactory(new PropertyValueFactory<Vote, String>("preferenza"));
 		
 		table.setItems(lst);
-		table.getColumns().addAll(columnCandidato, columnSession, columnVoto);
+		table.getColumns().addAll( columnSession, columnCandidato, columnVoto);
 		
 	}
 }
