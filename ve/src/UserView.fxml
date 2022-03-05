@@ -44,13 +44,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserViewController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
             <Menu mnemonicParsing="false" text="Sessioni di voto">
               <items>
-                <MenuItem mnemonicParsing="false" text="Seleziona sessione e vota" />
+                <MenuItem fx:id="vota" mnemonicParsing="false" onAction="#handleVota" text="Seleziona sessione e vota" />
               </items>
             </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -62,7 +62,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Pane fx:id="openVoteSessionPane" prefHeight="373.0" prefWidth="616.0" visible="false">
+            <Pane fx:id="openVoteSessionPane" prefHeight="373.0" prefWidth="616.0">
                <children>
                   <AnchorPane layoutX="14.0" layoutY="72.0" prefHeight="271.0" prefWidth="597.0">
                      <children>
@@ -84,9 +84,14 @@
                         <Pane fx:id="ordinalePane" prefHeight="299.0" prefWidth="597.0" visible="false">
                            <children>
                               <Label prefHeight="34.0" prefWidth="371.0" text="La sessione di voto selezionata ha una modalità di voto ordinale:" />
-                              <ListView fx:id="ListViewVotableUnordered" layoutY="34.0" prefHeight="200.0" prefWidth="200.0" />
-                              <ListView fx:id="ListViewVotableOrdered" layoutX="223.0" layoutY="34.0" prefHeight="200.0" prefWidth="200.0" />
-                              <Button fx:id="votoOrdinaleButton" layoutX="445.0" layoutY="209.0" mnemonicParsing="false" onAction="#handleVotoOrdinale" text="Vota" />
+                              <ListView fx:id="ListViewVotableUnordered" fixedCellSize="30.0" layoutY="109.0" prefHeight="176.0" prefWidth="200.0" />
+                              <ListView fx:id="ListViewVotableOrdered" fixedCellSize="30.0" layoutX="235.0" layoutY="137.0" prefHeight="149.0" prefWidth="240.0" />
+                              <Button fx:id="votoOrdinaleButton" layoutX="475.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleVotoOrdinale" text="Vota" />
+                              <Button fx:id="addToLst" layoutX="235.0" layoutY="109.0" mnemonicParsing="false" onAction="#handleAddToLst" prefHeight="25.0" prefWidth="240.0" text="add selected candidate to the ordred list" />
+                              <Label layoutY="26.0" text="1) seleziona un candidato dalla lista in basso a sinistra" />
+                              <Label layoutY="43.0" text="2) clicca su add selected candidate to the ordred list" />
+                              <Label layoutY="60.0" text="3) ripetere la procedura per tutti i candidati" />
+                              <Label layoutY="77.0" text="4) clicca su Vota" />
                            </children>
                         </Pane>
                         <Pane fx:id="referendumPane" prefHeight="299.0" prefWidth="597.0" visible="false">
@@ -99,7 +104,7 @@
                         </Pane>
                      </children>
                   </AnchorPane>
-                  <MenuButton fx:id="ScegliSessioneAperta" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Sessioni di voto aperte" />
+                  <MenuButton fx:id="ScegliSessioneAperta" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleScegliSessioneAperta" prefHeight="24.0" prefWidth="219.0" text="Sessioni di voto aperte" />
                   <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="371.0" text="Seleziona la sessione di voto nella quale esprimere la tua preferenza:" />
                </children>
             </Pane>
