@@ -30,7 +30,9 @@ public class SessioneVoto {
     
     private int howManyHaveVoted;
     
-    private ModalitaVincitaStrategy definizioneVincitore;
+    private ModalitaVincitaContext definizioneVincitore;
+    
+    private ModalitaVotoContext modalitaVoto;
     
     private Date beginningDate;
     
@@ -55,6 +57,8 @@ public class SessioneVoto {
     	this.setBeginningDate(beginningDate);
     	this.setEndingDate(endingDate);
     	this.candidates = new HashSet<>();
+    	this.modalitaVoto = new ModalitaVotoContext();
+    	this.definizioneVincitore = new ModalitaVincitaContext();
     }
     
     /**
@@ -69,6 +73,8 @@ public class SessioneVoto {
     	this.setBeginningDate(beginningDate);
     	this.setEndingDate(endingDate);
     	this.candidates = candidates;
+    	this.modalitaVoto = new ModalitaVotoContext();
+    	this.definizioneVincitore = new ModalitaVincitaContext();
     }
 
     /**
@@ -142,17 +148,37 @@ public class SessioneVoto {
 	public void setEndingDate(Date endingDate) {
 		this.endingDate = endingDate;
 	}
+	
+	public void setHowManyHaveVoted(int howManyHaveVoted) {
+		this.howManyHaveVoted = howManyHaveVoted;
+	}
 
 	public String getName() {
 		return name;
 	}
 
-	public ModalitaVincitaStrategy getDefinizioneVincitore() {
-		return definizioneVincitore;
+	public String getTipoDefinizioneVincitore() {
+		return definizioneVincitore.getNomeModalitaVincita();
 	}
 
-	public void setDefinizioneVincitore(ModalitaVincitaStrategy definizioneVincitore) {
-		this.definizioneVincitore = definizioneVincitore;
+	public void setDefinizioneVincitore(String nomeModalitaVincita) {
+		this.definizioneVincitore.setStrategy(nomeModalitaVincita);
+	}
+	
+	public String getTipoModalitaVoto() {
+		return modalitaVoto.getNomeModalitaVoto();
+	}
+
+	public void setModalitaVoto(String nomeModalitaVoto) {
+		this.modalitaVoto.setStrategy(nomeModalitaVoto);
+	}
+	
+	public Votable getWinner() {
+		return definizioneVincitore.definizioneVincitore(votes, howManyHaveVoted);
+	}
+	
+	public void vota() {
+		// esegue il metodo vota della strategy
 	}
 
 	public int getHowManyHaveVoted() {
