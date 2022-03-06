@@ -1,7 +1,6 @@
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -111,8 +110,8 @@ public class AdminViewController {
     	if (event.getSource()==creaSessione) {
     		AdminViewDao.createSession(nameSession.getText(), modalitaVoto.getText(), modalitaVincita.getText());
     		nameSession.setText("");
-    		modalitaVoto.setText("Modalit√† di voto");
-    		modalitaVincita.setText("Modalit√† di vincita");
+    		modalitaVoto.setText("Modalit‡† di voto");
+    		modalitaVincita.setText("Modalit‡† di vincita");
     		
     		AdminViewDao.getSessions(mScegliSessione);
         	AdminViewDao.getSessions(aScegliSessione);
@@ -126,8 +125,8 @@ public class AdminViewController {
     		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), Date.valueOf(dataApertura.getText()), Date.valueOf(dataChiusura.getText()));
     		mScegliSessione.setText("Sessione");
     		modificaNomeSessione.setText("");
-    		modificaModalitaVoto.setText("Modalit√† di voto");
-    		modificaModalitaVincita.setText("Modalit√† di vincita");
+    		modificaModalitaVoto.setText("Modalit‡† di voto");
+    		modificaModalitaVincita.setText("Modalit‡† di vincita");
     		dataApertura.setText("");
     		dataChiusura.setText("");
     		

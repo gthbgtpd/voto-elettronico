@@ -73,15 +73,14 @@ public class AdminViewDao {
 	
 	public static void modifySession(String oldName, String name, String modeVote, String modeWin, Date dataApertura, Date dataChiusura) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("update voto.session set name=?, modeVote=?, modeWin=?, dataapertura=?, datachiustura=? where id=?");
+		PreparedStatement query1 = conn.prepareStatement("update voto.session set name=?, modeVote=?, modeWin=?, dataapertura=?, datachiusura=? where id=?");
         query1.setString(1, name);
         query1.setString(2, modeVote);
         query1.setString(3, modeWin);
         query1.setDate(4, dataApertura);
-        query1.setDate(4, dataChiusura);
-        query1.setInt(5, getId("voto.session", oldName));
-        @SuppressWarnings("unused")
-		int res = query1.executeUpdate();
+        query1.setDate(5, dataChiusura);
+        query1.setInt(6, getId("voto.session", oldName));
+        query1.executeUpdate();
 	}
 	
 	public static String getModeVote(String name) throws SQLException {
