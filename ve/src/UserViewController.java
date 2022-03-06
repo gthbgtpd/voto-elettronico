@@ -1,8 +1,11 @@
 import java.sql.SQLException;
+
+import Model.SessioneVoto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -63,9 +66,14 @@ public class UserViewController {
 
     @FXML
     private Button votoReferendumButton;
-    
+
     @FXML
     private Button addToLst;
+    
+    private SessioneVoto selected;
+    
+    @FXML
+    private Label test;
 
     @FXML
     void handleVota(ActionEvent event) {
@@ -81,17 +89,20 @@ public class UserViewController {
     		SelezionaCandidatiPartito.getItems().clear();
     	}
     }
-    
+
     @FXML
     void handleAddToLst(ActionEvent event) {
     	if (event.getSource()==addToLst) {
     		ListViewVotableOrdered.getItems().add(ListViewVotableUnordered.getSelectionModel().getSelectedItem());
     	}
     }
-    
-    @FXML
-    void handleScegliSessioneAperta(ActionEvent event) {
 
+    // al momento sta dando qualche problema, devo testarlo ancora un po' perché non sembra faccia il suo dovere quando viene selezionato una sessione
+    @FXML
+    void handleScegliSessioneAperta(ActionEvent event) throws SQLException {
+    	String sessioneVotoScelta = ScegliSessioneAperta.getText();
+    	selected = UserViewDao.getVotingSession(sessioneVotoScelta);
+    	test.setText(selected.getName());
     }
 
     @FXML
@@ -110,7 +121,7 @@ public class UserViewController {
     		ScegliSessioneAperta.setText("Sessioni di voto aperte");
     		SelezionaPartito.setText("Seleziona partito (o gruppo) di preferenza");
     		SelezionaCandidatiPartito.getItems().clear();
-    		
+
     	}
     }
 
@@ -133,7 +144,7 @@ public class UserViewController {
     		referendumContro.setSelected(false);
     	}
     }
-    
+
     @FXML
     void initialize() throws SQLException {
     	UserViewDao.getSessions(ScegliSessioneAperta);
