@@ -1,11 +1,14 @@
 package Model;
 
+import java.util.Objects;
+
 /**
  * 
  */
 public class Candidato implements Votable {
 
-    /**
+
+	/**
      * 
      */
     private String name;
@@ -37,4 +40,26 @@ public class Candidato implements Votable {
         return id;
     }
 
+    @Override
+	public String toString() {
+		return "Candidato [name=" + name + ", id=" + id + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Candidato other = (Candidato) obj;
+		return id == other.id && Objects.equals(name, other.name);
+	}
+    
 }
