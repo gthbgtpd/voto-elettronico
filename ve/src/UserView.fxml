@@ -87,9 +87,9 @@
                               <ListView fx:id="ListViewVotableUnordered" fixedCellSize="30.0" layoutY="109.0" prefHeight="176.0" prefWidth="200.0" />
                               <ListView fx:id="ListViewVotableOrdered" fixedCellSize="30.0" layoutX="235.0" layoutY="137.0" prefHeight="149.0" prefWidth="240.0" />
                               <Button fx:id="votoOrdinaleButton" layoutX="475.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleVotoOrdinale" text="Vota" />
-                              <Button fx:id="addToLst" layoutX="235.0" layoutY="109.0" mnemonicParsing="false" onAction="#handleAddToLst" prefHeight="25.0" prefWidth="240.0" text="add selected candidate to the ordred list" />
+                              <Button fx:id="addToLst" layoutX="235.0" layoutY="109.0" mnemonicParsing="false" onAction="#handleAddToLst" prefHeight="25.0" prefWidth="240.0" text="Aggiungi candidato alla lista ordinata" />
                               <Label layoutY="26.0" text="1) seleziona un candidato dalla lista in basso a sinistra" />
-                              <Label layoutY="43.0" text="2) clicca su add selected candidate to the ordred list" />
+                              <Label layoutY="43.0" text="2) clicca su &quot;Aggiungi candidato alla lista ordinata&quot;" />
                               <Label layoutY="60.0" text="3) ripetere la procedura per tutti i candidati" />
                               <Label layoutY="77.0" text="4) clicca su Vota" />
                            </children>
@@ -105,7 +105,7 @@
                      </children>
                   </AnchorPane>
                   <MenuButton fx:id="ScegliSessioneAperta" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleScegliSessioneAperta" prefHeight="24.0" prefWidth="219.0" text="Sessioni di voto aperte" />
-                  <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="371.0" text="Seleziona la sessione di voto nella quale esprimere la tua preferenza:" />
+                  <Label fx:id="test" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="371.0" text="Seleziona la sessione di voto nella quale esprimere la tua preferenza:" />
                </children>
             </Pane>
       </children>
