@@ -2,6 +2,7 @@ package Model;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Set;
 public class Gruppo implements Votable, Iterable<Candidato> {
 	
 
-    /**
+	/**
      * 
      */
     private final int id;
@@ -73,6 +74,28 @@ public class Gruppo implements Votable, Iterable<Candidato> {
 	@Override
 	public Iterator<Candidato> iterator() {
 		return candidates.iterator();
+	}
+	
+	@Override
+	public String toString() {
+		return "Candidato [name=" + name + ", id=" + id + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(candidates, id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Gruppo other = (Gruppo) obj;
+		return Objects.equals(candidates, other.candidates) && id == other.id && Objects.equals(name, other.name);
 	}
 
 }
