@@ -26,7 +26,7 @@ public class SessioneVotoFactory {
     
     private Date endingDate;
 
-    public Set<Votable> candidates;
+    private Set<Votable> candidates;
 
     public SessioneVotoFactory() {}
 
