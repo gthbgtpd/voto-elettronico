@@ -158,8 +158,12 @@ public class UserViewDao {
 		con.close();
 		return sf.getVotingSession();
 	}
-
 	
+	public static boolean getUserHasVoted (int idUser, int idSession) {
+		// da implementare
+		return true;
+	}
+
 	public static void openSessions() throws SQLException, ParseException {
 		Connection conn = getConnection();
 		String sql = "select s.dataapertura from voto.session as s where s.dataapertura is not null" ;
