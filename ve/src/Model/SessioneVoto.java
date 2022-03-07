@@ -177,8 +177,8 @@ public class SessioneVoto {
 		return definizioneVincitore.definizioneVincitore(votes, howManyHaveVoted);
 	}
 	
-	public void vota() {
-		// esegue il metodo vota della strategy
+	public Map<Votable, Integer> vota(List<Votable> preferences) {
+		return modalitaVoto.vota(preferences, votes);
 	}
 
 	public int getHowManyHaveVoted() {
