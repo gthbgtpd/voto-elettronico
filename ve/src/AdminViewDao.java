@@ -112,13 +112,20 @@ public class AdminViewDao {
 	public static void addCandidate(String session, String candidate, boolean isGroup) throws SQLException {
 		Connection conn = getConnection();
 		PreparedStatement query1 = conn.prepareStatement("insert into voto.candidates(id, idSession, name, isParty) values(?, ?, ?, ?)");
-		query1.setInt(1, getLastId("voto.candidates")+1);
-		query1.setInt(2, getId("voto.session", session));
+		int idCandidate = getLastId("voto.candidates")+1;
+		int idSession =  getId("voto.session", session);
+		query1.setInt(1, idCandidate);
+		query1.setInt(2, idSession);
         query1.setString(3, candidate);
         query1.setBoolean(4, isGroup);
+        PreparedStatement query2 = conn.prepareStatement("insert into voto.vote(idsession, idcandidates, preferenza) values(?, ?, 0)");
+        query2.setInt(1, idSession);
+        query2.setInt(2, idCandidate);
         @SuppressWarnings("unused")
 		boolean res = query1.execute();
+        res = query2.execute();
 	}
+	
 	
 	public static void getSessions(MenuButton scegliSessione) throws SQLException {
 		scegliSessione.getItems().clear();
