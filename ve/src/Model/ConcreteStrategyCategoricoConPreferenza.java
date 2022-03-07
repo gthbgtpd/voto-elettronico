@@ -1,15 +1,19 @@
-import java.sql.SQLException;
+package Model;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ConcreteStrategyCategoricoConPreferenza {
+public class ConcreteStrategyCategoricoConPreferenza implements ModalitaVotoStrategy {
 
 	public ConcreteStrategyCategoricoConPreferenza() {}
 	
-	public void voto(List<Votable> candidati, Map<Votable, Integer> candidatoConVoto) throws SQLException {
+	public Map<Votable, Integer> voto(List<Votable> candidati, Map<Votable, Integer> candidatoConVoto) {
+		Map<Votable, Integer> preferenzeModificate = new HashMap<>();
 		for (Votable candidato:candidati) {
-			AdminClientDao.putVote(candidato, candidatoConVoto.get(candidato)+1);
+			int punteggioPrecedente = 0;
+			if (candidatoConVoto.containsKey(candidato)) punteggioPrecedente = candidatoConVoto.get(candidato);
+			preferenzeModificate.put(candidato, punteggioPrecedente + 1);
 		}
-		return;
+		return preferenzeModificate;
 	}
 }
