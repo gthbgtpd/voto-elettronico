@@ -178,11 +178,20 @@ public class SessioneVoto {
 	}
 	
 	public Map<Votable, Integer> vota(List<Votable> preferences) {
+		howManyHaveVoted++;
 		return modalitaVoto.vota(preferences, votes);
 	}
 
 	public int getHowManyHaveVoted() {
 		return howManyHaveVoted;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "SessioneVoto [id=" + id + ", name=" + name + ", votes=" + votes + ", isOpen=" + isOpen
+				+ ", isScrutinyPhase=" + isScrutinyPhase + ", howManyHaveVoted=" + howManyHaveVoted
+				+ ", definizioneVincitore=" + definizioneVincitore + ", modalitaVoto=" + modalitaVoto
+				+ ", beginningDate=" + beginningDate + ", endingDate=" + endingDate + ", candidates=" + candidates
+				+ "]";
+	}
 }
