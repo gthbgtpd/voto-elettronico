@@ -85,6 +85,7 @@ public class UserViewDao {
 	}
 	
 		
+	
 	public static SessioneVoto getVotingSession(String nameSession) throws SQLException {
 		Connection con = getConnection();
 		SessioneVotoFactory sf = new SessioneVotoFactory();
@@ -110,7 +111,6 @@ public class UserViewDao {
 			sf.setModalitaVotoName(modeVote);
 		}
 		s.close();
-		res.close();
 		String secondQuery = "SELECT * FROM voto.candidates as c WHERE c.idsession = ?";
 		s = con.prepareStatement(secondQuery);
 		s.setInt(1, idSessione);
@@ -128,13 +128,12 @@ public class UserViewDao {
 				s = con.prepareStatement(thirdQuery);
 				s.setInt(1, idCandidate);
 				ResultSet resCandidates = s.executeQuery();
-				s.close();
 				while(resCandidates.next()) {
 					int idCandidateParty = resCandidates.getInt("id");
 					String nameCandidateParty = resCandidates.getString("name");
 					candidatesInParty.add(new Candidato(idCandidateParty, nameCandidateParty));
 				}
-				resCandidates.close();
+				s.close();
 				// fine metodo in comune
 				v = new Gruppo(idCandidate, name, candidatesInParty);
 			} else {
@@ -143,7 +142,6 @@ public class UserViewDao {
 			candidates.add(v);
 		}
 		s.close();
-		res.close();
 		Map<Votable, Integer> votes = new HashMap<>();
 		for (Votable v : candidates) {
 			String fourthQuery = "SELECT * FROM voto.vote as v WHERE v.idsession = ? AND v.idcandidates = ?";
