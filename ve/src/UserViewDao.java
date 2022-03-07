@@ -6,7 +6,18 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import Model.Candidato;
+import Model.Gruppo;
+import Model.SessioneVoto;
+import Model.SessioneVotoFactory;
+import Model.Votable;
+
 import java.sql.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -159,29 +170,9 @@ public class UserViewDao {
 		return sf.getVotingSession();
 	}
 	
-	public static boolean getUserHasVoted (int idUser, int idSession) throws SQLException {
-		Connection conn = getConnection();
-		String sql = "SELECT * FROM voto.hasvoted as hv WHERE hv.iduser = ? AND hv.idvotingsession = ?";
-		PreparedStatement query = conn.prepareStatement(sql);
-		query.setInt(1, idUser);
-		query.setInt(2, idSession);
-		ResultSet res = query.executeQuery();
-		boolean hasVoted = false;
-		while (res.next()) {
-			hasVoted = res.getBoolean("hasvoted");
-		}
-		conn.close();
-		return hasVoted;
-	}
-	
-	public static void setUserHasVoted (int idUser, int idSession) throws SQLException {
-		Connection conn = getConnection();
-		String sql = "insert into voto.hasvoted (iduser, idvotingsession, hasvoted) values(?, ?, 1)";
-		PreparedStatement query = conn.prepareStatement(sql);
-		query.setInt(1, idUser);
-		query.setInt(2, idSession);
-		query.execute();
-		conn.close();
+	public static boolean getUserHasVoted (int idUser, int idSession) {
+		// da implementare
+		return true;
 	}
 
 	public static void openSessions() throws SQLException, ParseException {

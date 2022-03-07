@@ -3,10 +3,13 @@
 <!--
   Copyright (c) 2015, 2019, Gluon and/or its affiliates.
   All rights reserved. Use is subject to license terms.
+
   This file is available and licensed under the following license:
+
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
   are met:
+
   - Redistributions of source code must retain the above copyright
     notice, this list of conditions and the following disclaimer.
   - Redistributions in binary form must reproduce the above copyright
@@ -15,6 +18,7 @@
   - Neither the name of Oracle Corporation nor the names of its
     contributors may be used to endorse or promote products derived
     from this software without specific prior written permission.
+
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -52,15 +56,14 @@
             <MenuItem fx:id="result" mnemonicParsing="false" onAction="#handleResult" text="Visualizza esiti" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Inserisci candidati">
+        <Menu mnemonicParsing="false" text="Inserisci canndidati">
           <items>
-            <MenuItem fx:id="insert" mnemonicParsing="false" onAction="#handleInsert" text="Aggiungi nuovo candidato alla sessione" />
-                  <MenuItem fx:id="insertParty" mnemonicParsing="false" onAction="#handleInsertParty" text="Aggiungi candidato ad un partito" />
+            <MenuItem fx:id="insert" mnemonicParsing="false" onAction="#handleInsert" text="Inserisci" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="Informazioni sul sistema di voto" />
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
           </items>
         </Menu>
       </menus>
@@ -73,7 +76,7 @@
                   <TextField fx:id="nameSession" layoutX="14.0" layoutY="24.0" prefHeight="24.0" prefWidth="219.0" promptText="Nome sessione" />
                   <MenuButton fx:id="modalitaVoto" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Modalità di voto">
                      <items>
-                        <MenuItem fx:id="cOrdinario" mnemonicParsing="false" onAction="#handleCOrdinario" text="Ordinario" />
+                        <MenuItem fx:id="cOrdinale" mnemonicParsing="false" onAction="#handleCOrdinale" text="Ordinale" />
                         <MenuItem fx:id="cCategorico" mnemonicParsing="false" onAction="#handleCCategorico" text="Categorico" />
                         <MenuItem fx:id="cCategoricoConP" mnemonicParsing="false" onAction="#handleCCategoricoConP" text="Categorico con preferenza" />
                         <MenuItem fx:id="cRef" mnemonicParsing="false" onAction="#handleCRef" text="Referendum" />
@@ -94,7 +97,7 @@
                   <TextField fx:id="modificaNomeSessione" layoutX="14.0" layoutY="71.0" prefHeight="24.0" prefWidth="219.0" promptText="Nuovo nome" />
                   <MenuButton fx:id="modificaModalitaVoto" layoutX="14.0" layoutY="115.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Modalità di voto">
                      <items>
-                        <MenuItem fx:id="mOrdinario" mnemonicParsing="false" onAction="#handleMOrdinario" text="Ordinario" />
+                        <MenuItem fx:id="mOrdinale" mnemonicParsing="false" onAction="#handleMOrdinale" text="Ordinale" />
                         <MenuItem fx:id="mCategorico" mnemonicParsing="false" onAction="#handleMCategorico" text="Categorico" />
                         <MenuItem fx:id="MCategoricoConP" mnemonicParsing="false" onAction="#handleMCategoricoConP" text="Categorico con preferenza" />
                         <MenuItem fx:id="mReferendum" mnemonicParsing="false" onAction="#handleMReferendum" text="Referendum" />
@@ -109,8 +112,8 @@
                      </items>
                   </MenuButton>
                   <Button fx:id="modificaSessione" layoutX="487.0" layoutY="162.0" mnemonicParsing="false" onAction="#handleModificaSessione" text="modifica" />
-                  <TextField fx:id="dataApertura" layoutX="14.0" layoutY="162.0" prefHeight="25.0" prefWidth="219.0" promptText="aaaa/mm/gg" />
-                  <TextField fx:id="dataChiusura" layoutX="253.0" layoutY="162.0" prefHeight="25.0" prefWidth="219.0" promptText="aaaa/mm/gg" />
+                  <TextField fx:id="dataApertura" layoutX="14.0" layoutY="162.0" prefHeight="25.0" prefWidth="219.0" promptText="aaaa-mm-gg" />
+                  <TextField fx:id="dataChiusura" layoutX="253.0" layoutY="162.0" prefHeight="25.0" prefWidth="219.0" promptText="aaaa-mm-gg" />
                </children></Pane>
             <Pane fx:id="viewResultPane" prefHeight="373.0" prefWidth="640.0" visible="false">
                <children>
@@ -127,15 +130,6 @@
                   <MenuButton fx:id="aScegliSessione" layoutX="21.0" layoutY="42.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Sessione" />
                   <CheckBox fx:id="isGroup" layoutX="284.0" layoutY="117.0" mnemonicParsing="false" text="partito/gruppo" />
                </children></Pane>
-            <Pane fx:id="insertCandidatesPartyPane" prefHeight="373.0" prefWidth="640.0" visible="false">
-               <children>
-                  <MenuButton fx:id="ScegliPartito" layoutX="37.0" layoutY="62.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Partito" />
-                  <MenuButton fx:id="ScegliCandidato" layoutX="37.0" layoutY="122.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Candidato" />
-                  <Button fx:id="aggiungiCandidatoPartito" layoutX="483.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleAggiungiCandidatoPartito" text="aggiungi" />
-                  <Label layoutX="37.0" layoutY="45.0" prefHeight="17.0" prefWidth="265.0" text="Seleziona il partito nel quale inserire il candidato:" />
-                  <Label layoutX="37.0" layoutY="105.0" prefHeight="17.0" prefWidth="265.0" text="Seleziona il candidato da inserire:" />
-               </children>
-            </Pane>
          </children>
       </AnchorPane>
   </children>

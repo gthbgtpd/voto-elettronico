@@ -1,6 +1,11 @@
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import Model.SessioneVoto;
+import Model.Votable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -83,20 +88,15 @@ public class UserViewController {
     		ListViewVotableOrdered.getItems().clear();
     		ListViewVotableUnordered.getItems().clear();
     		SelezionaCandidatiPartito.getItems().clear();
+    		SelezionaPreferenza.getItems().clear();
     	}
     }
     
     @FXML
     void handleAddToLst(ActionEvent event) {
     	if (event.getSource()==addToLst) {
-    		if (ListViewVotableUnordered.getSelectionModel().getSelectedItem().equals(null)) return;
     		ListViewVotableOrdered.getItems().add(ListViewVotableUnordered.getSelectionModel().getSelectedItem());
     	}
-    }
-    
-    @FXML
-    void handleScegliSessioneAperta(ActionEvent event) {
-
     }
 
     @FXML
@@ -107,8 +107,6 @@ public class UserViewController {
         		SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
         		if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
 					// inserimento di un pane di errore
-        			ScegliSessioneAperta.setText("Sessioni di voto aperte");
-            		SelezionaPreferenza.setText("Seleziona preferenza");
 					return;
 				}
 				String nameCandidate = SelezionaPreferenza.getText();
@@ -119,19 +117,36 @@ public class UserViewController {
 				for (Votable v : preferenzeAggiornate.keySet()) {
 					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
 				}
-				UserViewDao.setUserHasVoted(idUser, selected.getId());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
     		ScegliSessioneAperta.setText("Sessioni di voto aperte");
     		SelezionaPreferenza.setText("Seleziona preferenza");
+    		SelezionaPreferenza.getItems().clear();
     	}
     }
 
     @FXML
     void handleVotoCategoricoPreferenza(ActionEvent event) {
     	if (event.getSource()==votaCategoricoPreferenzaButton) {
-    		//da fare
+    		String nameSession = ScegliSessioneAperta.getText();
+        	try {
+        		SessioneVoto selected = UserViewDao.getVotingSession(nameSession);
+        		if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
+					/*da fare*/
+					return;
+				}
+				String nameCandidate = SelezionaCandidatiPartito.getSelectionModel().getSelectedItem();
+				List<Votable> preferences = new ArrayList<>();
+				Votable candidate = UserViewDao.getCandidate(nameCandidate);
+				preferences.add(candidate);
+				Map<Votable, Integer> preferenzeAggiornate = selected.vota(preferences);
+				for (Votable v : preferenzeAggiornate.keySet()) {
+					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
     		ScegliSessioneAperta.setText("Sessioni di voto aperte");
     		SelezionaPartito.setText("Seleziona partito (o gruppo) di preferenza");
     		SelezionaCandidatiPartito.getItems().clear();
@@ -147,9 +162,6 @@ public class UserViewController {
 				SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
 				if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
 					// inserimento di un pane di errore
-					ScegliSessioneAperta.setText("Sessioni di voto aperte");
-		    		ListViewVotableOrdered.getItems().clear();
-		    		ListViewVotableUnordered.getItems().clear();
 					return;
 				}
 				List<Votable> preferences = new ArrayList<>();
@@ -161,7 +173,6 @@ public class UserViewController {
 				for (Votable v : preferenzeAggiornate.keySet()) {
 					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
 				}
-				UserViewDao.setUserHasVoted(idUser, selected.getId());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -172,11 +183,32 @@ public class UserViewController {
     	}
     }
 
-
     @FXML
     void handleVotoReferendum(ActionEvent event) {
     	if (event.getSource()==votoReferendumButton) {
-    		//da fare
+    		String nameSession = ScegliSessioneAperta.getText();
+        	try {
+        		SessioneVoto selected = UserViewDao.getVotingSession(nameSession);
+        		if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
+					/*da fare*/
+					return;
+				}
+        		String nameCandidate = null;
+        		if (referendumPro.isSelected()) {
+        			nameCandidate = "yes";
+        		} else if (referendumContro.isSelected()) {
+        			nameCandidate = "no";
+        		}
+				List<Votable> preferences = new ArrayList<>();
+				Votable candidate = UserViewDao.getCandidate(nameCandidate);
+				preferences.add(candidate);
+				Map<Votable, Integer> preferenzeAggiornate = selected.vota(preferences);
+				for (Votable v : preferenzeAggiornate.keySet()) {
+					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
     		ScegliSessioneAperta.setText("Sessioni di voto aperte");
     		referendumPro.setSelected(false);
     		referendumContro.setSelected(false);

@@ -7,8 +7,6 @@ public class UserViewSetting {
 
 	public static void selectedMenuButton(MenuButton menu, Pane ordPane, Pane ctgPane, Pane ctgpPane, Pane rfdPane, ListView<String> unrdLst, ListView<String> ordLst,MenuButton SelezionaPreferenza, MenuButton SelezionaPartito, ListView<String> SelezionaCandidatiPartito) throws SQLException {
     	ObservableList<MenuItem> lm = menu.getItems();
-    	unrdLst.getItems().clear();
-		ordLst.getItems().clear();
     	for (MenuItem i : lm) {
     		if (UserViewDao.getMode(i.getText()).equals("Ordinario")) {
 				i.setOnAction(e -> {
@@ -17,6 +15,10 @@ public class UserViewSetting {
 		    		ctgPane.setVisible(false);
 		    		ctgpPane.setVisible(false);
 		    		rfdPane.setVisible(false);
+		    		unrdLst.getItems().clear();
+		    		ordLst.getItems().clear();
+		    		SelezionaPreferenza.getItems().clear();
+		    		SelezionaPreferenza.setText("Seleziona preferenza");
 		    		ObservableList<String> cdts;
 					try {
 						cdts = UserViewDao.getCandidates(menu.getText());
@@ -33,6 +35,10 @@ public class UserViewSetting {
 		    		ordPane.setVisible(false);
 		    		ctgpPane.setVisible(false);
 		    		rfdPane.setVisible(false);
+		    		unrdLst.getItems().clear();
+		    		ordLst.getItems().clear();
+		    		SelezionaPreferenza.getItems().clear();
+		    		SelezionaPreferenza.setText("Seleziona preferenza");
 		    		ObservableList<String> cdts;
 					try {
 						cdts = UserViewDao.getCandidates(menu.getText());
@@ -58,6 +64,10 @@ public class UserViewSetting {
 		    		ctgPane.setVisible(false);
 		    		ordPane.setVisible(false);
 		    		rfdPane.setVisible(false);
+		    		unrdLst.getItems().clear();
+		    		ordLst.getItems().clear();
+		    		SelezionaPreferenza.getItems().clear();
+		    		SelezionaPreferenza.setText("Seleziona preferenza");
 		    		ObservableList<String> cdts;
 					
 						try {
@@ -92,6 +102,10 @@ public class UserViewSetting {
 		    		ordPane.setVisible(false);
 		    		ctgPane.setVisible(false);
 		    		ctgpPane.setVisible(false);
+		    		unrdLst.getItems().clear();
+		    		ordLst.getItems().clear();
+		    		SelezionaPreferenza.getItems().clear();
+		    		SelezionaPreferenza.setText("Seleziona preferenza");
 		    	});
     		}
     	}

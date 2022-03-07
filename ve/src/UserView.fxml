@@ -62,7 +62,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Pane fx:id="openVoteSessionPane" prefHeight="373.0" prefWidth="616.0">
+            <Pane fx:id="openVoteSessionPane" prefHeight="373.0" prefWidth="616.0" visible="false">
                <children>
                   <AnchorPane layoutX="14.0" layoutY="72.0" prefHeight="271.0" prefWidth="597.0">
                      <children>
@@ -104,7 +104,7 @@
                         </Pane>
                      </children>
                   </AnchorPane>
-                  <MenuButton fx:id="ScegliSessioneAperta" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleScegliSessioneAperta" prefHeight="24.0" prefWidth="219.0" text="Sessioni di voto aperte" />
+                  <MenuButton fx:id="ScegliSessioneAperta" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="219.0" text="Sessioni di voto aperte" />
                   <Label fx:id="test" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="371.0" text="Seleziona la sessione di voto nella quale esprimere la tua preferenza:" />
                </children>
             </Pane>

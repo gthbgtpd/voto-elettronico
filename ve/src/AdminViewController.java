@@ -35,11 +35,6 @@ public class AdminViewController {
     @FXML private TextField candidates;
     @FXML private Button aggiungiCandidato;
     @FXML private CheckBox isGroup;
-//addCandidatesPartyPane
-    @FXML private Pane insertCandidatesPartyPane;
-    @FXML private Button aggiungiCandidatoPartito;
-    @FXML private MenuButton ScegliPartito;
-    @FXML private MenuButton ScegliCandidato;
 //viewResultPane
     @FXML private Pane viewResultPane;
     @FXML private MenuButton vScegliSessione;
@@ -51,9 +46,8 @@ public class AdminViewController {
     @FXML private MenuItem modifySession;
     @FXML private MenuItem result;
     @FXML private MenuItem insert;
-    @FXML private MenuItem insertParty;
     
-    @FXML private MenuItem cOrdinario;
+    @FXML private MenuItem cOrdinale;
     @FXML private MenuItem cCategorico;
     @FXML private MenuItem cCategoricoConP;
     @FXML private MenuItem cRef;
@@ -63,7 +57,7 @@ public class AdminViewController {
     @FXML private MenuItem cRefConQ;
     @FXML private MenuItem crefSenzaQ;
     
-    @FXML private MenuItem mOrdinario;
+    @FXML private MenuItem mOrdinale;
     @FXML private MenuItem mCategorico;
     @FXML private MenuItem MCategoricoConP;
     @FXML private MenuItem mReferendum;
@@ -80,7 +74,6 @@ public class AdminViewController {
 		modifySessionPane.setVisible(false);
 		viewResultPane.setVisible(false);
 		insertCandidatesPane.setVisible(false);
-		insertCandidatesPartyPane.setVisible(false);
 		createSessionPane.setVisible(true);
 	}
     }
@@ -90,7 +83,6 @@ public class AdminViewController {
 		viewResultPane.setVisible(false);
 		insertCandidatesPane.setVisible(false);
 		createSessionPane.setVisible(false);
-		insertCandidatesPartyPane.setVisible(false);
 		modifySessionPane.setVisible(true);
 	}
     }
@@ -98,7 +90,6 @@ public class AdminViewController {
     void handleResult(ActionEvent event) {
 	if (event.getSource()==result) {
 		insertCandidatesPane.setVisible(false);
-		insertCandidatesPartyPane.setVisible(false);
 		createSessionPane.setVisible(false);
 		modifySessionPane.setVisible(false);
 		viewResultPane.setVisible(true);
@@ -110,20 +101,8 @@ public class AdminViewController {
 		createSessionPane.setVisible(false);
 		modifySessionPane.setVisible(false);
 		viewResultPane.setVisible(false);
-		insertCandidatesPartyPane.setVisible(false);
 		insertCandidatesPane.setVisible(true);
 	}
-    }
-    
-    @FXML
-    void handleInsertParty(ActionEvent event) {
-    	if (event.getSource()==insertParty) {
-    		createSessionPane.setVisible(false);
-    		modifySessionPane.setVisible(false);
-    		viewResultPane.setVisible(false);
-    		insertCandidatesPartyPane.setVisible(true);
-    		insertCandidatesPane.setVisible(false);
-    	}
     }
     
     @FXML
@@ -131,8 +110,8 @@ public class AdminViewController {
     	if (event.getSource()==creaSessione) {
     		AdminViewDao.createSession(nameSession.getText(), modalitaVoto.getText(), modalitaVincita.getText());
     		nameSession.setText("");
-    		modalitaVoto.setText("Modalità  di voto");
-    		modalitaVincita.setText("Modalità  di vincita");
+    		modalitaVoto.setText("Modalit� di voto");
+    		modalitaVincita.setText("Modalit� di vincita");
     		
     		AdminViewDao.getSessions(mScegliSessione);
         	AdminViewDao.getSessions(aScegliSessione);
@@ -154,8 +133,8 @@ public class AdminViewController {
     		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), dataOpen, dataClose);
     		mScegliSessione.setText("Sessione");
     		modificaNomeSessione.setText("");
-    		modificaModalitaVoto.setText("Modalità  di voto");
-    		modificaModalitaVincita.setText("Modalità  di vincita");
+    		modificaModalitaVoto.setText("Modalit� di voto");
+    		modificaModalitaVincita.setText("Modalit� di vincita");
     		dataApertura.setText("");
     		dataChiusura.setText("");
     		
@@ -178,17 +157,6 @@ public class AdminViewController {
     		isGroup.setSelected(false);
     	}
     }
-	
-    @FXML
-    void handleAggiungiCandidatoPartito(ActionEvent event) throws SQLException {
-    	if (event.getSource()==aggiungiCandidatoPartito) {
-    		if (ScegliPartito.getText().equals(null) || ScegliPartito.getText().equals(null)) return;
-    		AdminViewDao.addCandidateParty(ScegliPartito.getText(), ScegliCandidato.getText());
-    		ScegliPartito.setText("Partito");
-    		ScegliCandidato.setText("Candidato");
-    	}
-    }
-
     
     @FXML
     void handleVisualizza(ActionEvent event) throws SQLException {
@@ -234,7 +202,7 @@ public class AdminViewController {
         assert cCategoricoConP != null : "fx:id=\"cCategoricoConP\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert cMaggioranza != null : "fx:id=\"cMaggioranza\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert cMaggioranzaAss != null : "fx:id=\"cMaggioranzaAss\" was not injected: check your FXML file 'AdminView.fxml'.";
-        assert cOrdinario != null : "fx:id=\"cOrdinario\" was not injected: check your FXML file 'AdminView.fxml'.";
+        assert cOrdinale != null : "fx:id=\"cOrdinario\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert cRef != null : "fx:id=\"cRef\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert cRefConQ != null : "fx:id=\"cRefConQ\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert candidates != null : "fx:id=\"candidates\" was not injected: check your FXML file 'AdminView.fxml'.";
@@ -245,7 +213,7 @@ public class AdminViewController {
         assert mCategorico != null : "fx:id=\"mCategorico\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mMaggioranza != null : "fx:id=\"mMaggioranza\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mMaggioranzaAss != null : "fx:id=\"mMaggioranzaAss\" was not injected: check your FXML file 'AdminView.fxml'.";
-        assert mOrdinario != null : "fx:id=\"mOrdinario\" was not injected: check your FXML file 'AdminView.fxml'.";
+        assert mOrdinale != null : "fx:id=\"mOrdinario\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mRefConQ != null : "fx:id=\"mRefConQ\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mRefSenzaQ != null : "fx:id=\"mRefSenzaQ\" was not injected: check your FXML file 'AdminView.fxml'.";
         assert mReferendum != null : "fx:id=\"mReferendum\" was not injected: check your FXML file 'AdminView.fxml'.";
@@ -269,8 +237,6 @@ public class AdminViewController {
 		AdminViewDao.getSessions(mScegliSessione);
        	AdminViewDao.getSessions(aScegliSessione);
         AdminViewDao.getSessions(vScegliSessione);
-	AdminViewDao.getCandidates(ScegliCandidato);
-        AdminViewDao.getParties(ScegliPartito);
     	
     	AdminViewSetting.selectedMenuButtonModify(mScegliSessione, modificaModalitaVoto, modificaModalitaVincita);
     	AdminViewSetting.selectedMenuButton(aScegliSessione);
@@ -278,9 +244,9 @@ public class AdminViewController {
     }
     
     @FXML
-    void handleCOrdinario(ActionEvent event) {
-    	if (event.getSource()==cOrdinario) {
-	    	modalitaVoto.setText(cOrdinario.getText());
+    void handleCOrdinale(ActionEvent event) {
+    	if (event.getSource()==cOrdinale) {
+	    	modalitaVoto.setText(cOrdinale.getText());
 		}
     }
     @FXML
@@ -328,9 +294,9 @@ public class AdminViewController {
     }
 ///////
     @FXML
-    void handleMOrdinario(ActionEvent event) {
-    	if (event.getSource()==mOrdinario) {
-	    	modificaModalitaVoto.setText(mOrdinario.getText());
+    void handleMOrdinale(ActionEvent event) {
+    	if (event.getSource()==mOrdinale) {
+	    	modificaModalitaVoto.setText(mOrdinale.getText());
 		}
     }
     @FXML
