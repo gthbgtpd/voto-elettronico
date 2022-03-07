@@ -28,16 +28,14 @@ public class UserViewDao {
 	
 	public static void putVote(Votable candidato, Integer value) throws SQLException {
 		Connection conn = getConnection();
-		int id=0;
+		int id = 0;
 		PreparedStatement query = conn.prepareStatement("select c.id from voto.vote as v join voto.candidates as c on v.idcandidates=c.id where c.name=?");
-		query.setString(1, candidato.toString());
+		query.setString(1, candidato.getName());
 		ResultSet res = query.executeQuery();
         while ( res.next() ) {
         	id = res.getInt(1);
         }
-		
-		
-		PreparedStatement query1 = conn.prepareStatement("update voto.vote set preferenza=? where id=?");
+		PreparedStatement query1 = conn.prepareStatement("update voto.vote as v set v.preferenza=? where v.idcandidates=?");
         query1.setInt(1, value);
         query1.setInt(2, id);
         @SuppressWarnings("unused")
