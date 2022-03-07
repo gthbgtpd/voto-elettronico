@@ -35,6 +35,11 @@ public class AdminViewController {
     @FXML private TextField candidates;
     @FXML private Button aggiungiCandidato;
     @FXML private CheckBox isGroup;
+//addCandidatesPartyPane
+    @FXML private Pane insertCandidatesPartyPane;
+    @FXML private Button aggiungiCandidatoPartito;
+    @FXML private MenuButton ScegliPartito;
+    @FXML private MenuButton ScegliCandidato;
 //viewResultPane
     @FXML private Pane viewResultPane;
     @FXML private MenuButton vScegliSessione;
@@ -46,6 +51,7 @@ public class AdminViewController {
     @FXML private MenuItem modifySession;
     @FXML private MenuItem result;
     @FXML private MenuItem insert;
+    @FXML private MenuItem insertParty;
     
     @FXML private MenuItem cOrdinario;
     @FXML private MenuItem cCategorico;
@@ -74,6 +80,7 @@ public class AdminViewController {
 		modifySessionPane.setVisible(false);
 		viewResultPane.setVisible(false);
 		insertCandidatesPane.setVisible(false);
+		insertCandidatesPartyPane.setVisible(false);
 		createSessionPane.setVisible(true);
 	}
     }
@@ -83,6 +90,7 @@ public class AdminViewController {
 		viewResultPane.setVisible(false);
 		insertCandidatesPane.setVisible(false);
 		createSessionPane.setVisible(false);
+		insertCandidatesPartyPane.setVisible(false);
 		modifySessionPane.setVisible(true);
 	}
     }
@@ -90,6 +98,7 @@ public class AdminViewController {
     void handleResult(ActionEvent event) {
 	if (event.getSource()==result) {
 		insertCandidatesPane.setVisible(false);
+		insertCandidatesPartyPane.setVisible(false);
 		createSessionPane.setVisible(false);
 		modifySessionPane.setVisible(false);
 		viewResultPane.setVisible(true);
@@ -101,8 +110,20 @@ public class AdminViewController {
 		createSessionPane.setVisible(false);
 		modifySessionPane.setVisible(false);
 		viewResultPane.setVisible(false);
+		insertCandidatesPartyPane.setVisible(false);
 		insertCandidatesPane.setVisible(true);
 	}
+    }
+    
+    @FXML
+    void handleInsertParty(ActionEvent event) {
+    	if (event.getSource()==insertParty) {
+    		createSessionPane.setVisible(false);
+    		modifySessionPane.setVisible(false);
+    		viewResultPane.setVisible(false);
+    		insertCandidatesPartyPane.setVisible(true);
+    		insertCandidatesPane.setVisible(false);
+    	}
     }
     
     @FXML
@@ -110,8 +131,8 @@ public class AdminViewController {
     	if (event.getSource()==creaSessione) {
     		AdminViewDao.createSession(nameSession.getText(), modalitaVoto.getText(), modalitaVincita.getText());
     		nameSession.setText("");
-    		modalitaVoto.setText("Modalit� di voto");
-    		modalitaVincita.setText("Modalit� di vincita");
+    		modalitaVoto.setText("Modalità  di voto");
+    		modalitaVincita.setText("Modalità  di vincita");
     		
     		AdminViewDao.getSessions(mScegliSessione);
         	AdminViewDao.getSessions(aScegliSessione);
@@ -133,8 +154,8 @@ public class AdminViewController {
     		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), dataOpen, dataClose);
     		mScegliSessione.setText("Sessione");
     		modificaNomeSessione.setText("");
-    		modificaModalitaVoto.setText("Modalit� di voto");
-    		modificaModalitaVincita.setText("Modalit� di vincita");
+    		modificaModalitaVoto.setText("Modalità  di voto");
+    		modificaModalitaVincita.setText("Modalità  di vincita");
     		dataApertura.setText("");
     		dataChiusura.setText("");
     		
@@ -157,6 +178,17 @@ public class AdminViewController {
     		isGroup.setSelected(false);
     	}
     }
+	
+    @FXML
+    void handleAggiungiCandidatoPartito(ActionEvent event) throws SQLException {
+    	if (event.getSource()==aggiungiCandidatoPartito) {
+    		if (ScegliPartito.getText().equals(null) || ScegliPartito.getText().equals(null)) return;
+    		AdminViewDao.addCandidateParty(ScegliPartito.getText(), ScegliCandidato.getText());
+    		ScegliPartito.setText("Partito");
+    		ScegliCandidato.setText("Candidato");
+    	}
+    }
+
     
     @FXML
     void handleVisualizza(ActionEvent event) throws SQLException {
@@ -237,6 +269,8 @@ public class AdminViewController {
 		AdminViewDao.getSessions(mScegliSessione);
        	AdminViewDao.getSessions(aScegliSessione);
         AdminViewDao.getSessions(vScegliSessione);
+	AdminViewDao.getCandidates(ScegliCandidato);
+        AdminViewDao.getParties(ScegliPartito);
     	
     	AdminViewSetting.selectedMenuButtonModify(mScegliSessione, modificaModalitaVoto, modificaModalitaVincita);
     	AdminViewSetting.selectedMenuButton(aScegliSessione);
