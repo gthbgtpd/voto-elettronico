@@ -159,9 +159,29 @@ public class UserViewDao {
 		return sf.getVotingSession();
 	}
 	
-	public static boolean getUserHasVoted (int idUser, int idSession) {
-		// da implementare
-		return true;
+	public static boolean getUserHasVoted (int idUser, int idSession) throws SQLException {
+		Connection conn = getConnection();
+		String sql = "SELECT * FROM voto.hasvoted as hv WHERE hv.iduser = ? AND hv.idvotingsession = ?";
+		PreparedStatement query = conn.prepareStatement(sql);
+		query.setInt(1, idUser);
+		query.setInt(2, idSession);
+		ResultSet res = query.executeQuery();
+		boolean hasVoted = false;
+		while (res.next()) {
+			hasVoted = res.getBoolean("hasvoted");
+		}
+		conn.close();
+		return hasVoted;
+	}
+	
+	public static void setUserHasVoted (int idUser, int idSession) throws SQLException {
+		Connection conn = getConnection();
+		String sql = "insert into voto.hasvoted (iduser, idvotingsession, hasvoted) values(?, ?, 1)";
+		PreparedStatement query = conn.prepareStatement(sql);
+		query.setInt(1, idUser);
+		query.setInt(2, idSession);
+		query.execute();
+		conn.close();
 	}
 
 	public static void openSessions() throws SQLException, ParseException {
