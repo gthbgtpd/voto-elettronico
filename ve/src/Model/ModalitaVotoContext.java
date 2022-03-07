@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.List;
 import java.util.Map;
 
 public class ModalitaVotoContext {
@@ -30,8 +31,8 @@ public class ModalitaVotoContext {
 		return nomeModalitaVoto;
 	}
 	
-	public Map<Votable, Integer> vota (){
-		
+	public Map<Votable, Integer> vota (List<Votable> preferenze, Map<Votable, Integer> storicoPreferenze){
+		return modalitaVoto.voto(preferenze, storicoPreferenze);
 	}
 	
 }
