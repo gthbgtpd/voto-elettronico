@@ -68,6 +68,8 @@ public class UserViewController {
     
     @FXML
     private Button addToLst;
+	
+    private int idUser;
 
     @FXML
     void handleVota(ActionEvent event) {
@@ -102,6 +104,10 @@ public class UserViewController {
     		String sessioneVotoScelta = ScegliSessioneAperta.getText();
         	try {
         		SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
+        		if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
+					// inserimento di un pane di errore
+					return;
+				}
 				String nameCandidate = SelezionaPreferenza.getText();
 				List<Votable> preferences = new ArrayList<>();
 				Votable candidate = UserViewDao.getCandidate(nameCandidate);
@@ -135,6 +141,10 @@ public class UserViewController {
     		String sessioneVotoScelta = ScegliSessioneAperta.getText();
         	try {
 				SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
+				if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
+					// inserimento di un pane di errore
+					return;
+				}
 				List<Votable> preferences = new ArrayList<>();
 				for (String nameCandidate : ListViewVotableOrdered.getItems()) {
 					Votable candidate = UserViewDao.getCandidate(nameCandidate);
@@ -168,6 +178,7 @@ public class UserViewController {
     void initialize() throws SQLException, ParseException {
     	UserViewDao.getOpenSessions(ScegliSessioneAperta);
     	UserViewSetting.selectedMenuButton(ScegliSessioneAperta, ordinalePane, categoricoPane, categoricoPreferenzaPane, referendumPane, ListViewVotableUnordered, ListViewVotableUnordered, SelezionaPreferenza, SelezionaPartito, SelezionaCandidatiPartito);
+    	idUser = 0; // dovrà essere ricevuto da una precedente vista
     }
 
 }
