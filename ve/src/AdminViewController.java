@@ -122,7 +122,15 @@ public class AdminViewController {
     @FXML
     void handleModificaSessione(ActionEvent event) throws SQLException {
     	if (event.getSource()==modificaSessione) {
-    		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), Date.valueOf(dataApertura.getText()), Date.valueOf(dataChiusura.getText()));
+    		Date dataOpen = null;
+    		Date dataClose = null;
+    		if ((dataApertura.getText()).length()>1) {
+    			dataOpen = Date.valueOf(dataApertura.getText());
+    		}
+    		if ((dataChiusura.getText()).length()>1) {
+    			dataClose = Date.valueOf(dataChiusura.getText());
+    		}
+    		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), dataOpen, dataClose);
     		mScegliSessione.setText("Sessione");
     		modificaNomeSessione.setText("");
     		modificaModalitaVoto.setText("Modalità  di voto");

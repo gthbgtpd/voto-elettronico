@@ -73,14 +73,52 @@ public class AdminViewDao {
 	
 	public static void modifySession(String oldName, String name, String modeVote, String modeWin, Date dataApertura, Date dataChiusura) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("update voto.session set name=?, modeVote=?, modeWin=?, dataapertura=?, datachiusura=? where id=?");
-        query1.setString(1, name);
-        query1.setString(2, modeVote);
-        query1.setString(3, modeWin);
-        query1.setDate(4, dataApertura);
-        query1.setDate(5, dataChiusura);
-        query1.setInt(6, getId("voto.session", oldName));
-        query1.executeUpdate();
+		
+		String sql = "update voto.session set name=?, modeVote=?, modeWin=?";
+		if (dataApertura==null) {
+			sql = sql+", dataapertura=?";
+			if (dataChiusura==null) {
+				sql = sql+", datachiusura=?";
+				sql = sql+" where id=?";
+				PreparedStatement query = conn.prepareStatement(sql);
+				if (name.length()>0) {
+					query.setString(1, name);
+				} else {
+					query.setString(1, oldName);
+				}
+		        query.setString(2, modeVote);
+		        query.setString(3, modeWin);
+		        query.setDate(4, dataApertura);
+		        query.setDate(5, dataChiusura);
+		        query.setInt(6, getId("voto.session", oldName));
+		        query.executeUpdate();
+			} else {
+				sql = sql+" where id=?";
+				PreparedStatement query = conn.prepareStatement(sql);
+				if (name.length()>0) {
+					query.setString(1, name);
+				} else {
+					query.setString(1, oldName);
+				}
+		        query.setString(2, modeVote);
+		        query.setString(3, modeWin);
+		        query.setDate(4, dataApertura);
+		        query.setInt(5, getId("voto.session", oldName));
+		        query.executeUpdate();
+			}
+		} else {
+			sql = sql+" where id=?";
+			PreparedStatement query = conn.prepareStatement(sql);
+			if (name.length()>0) {
+				query.setString(1, name);
+			} else {
+				query.setString(1, oldName);
+			}
+	        query.setString(2, modeVote);
+	        query.setString(3, modeWin);
+	        query.setInt(4, getId("voto.session", oldName));
+	        query.executeUpdate();
+		}
 	}
 	
 	public static String getModeVote(String name) throws SQLException {
@@ -112,20 +150,13 @@ public class AdminViewDao {
 	public static void addCandidate(String session, String candidate, boolean isGroup) throws SQLException {
 		Connection conn = getConnection();
 		PreparedStatement query1 = conn.prepareStatement("insert into voto.candidates(id, idSession, name, isParty) values(?, ?, ?, ?)");
-		int idCandidate = getLastId("voto.candidates")+1;
-		int idSession =  getId("voto.session", session);
-		query1.setInt(1, idCandidate);
-		query1.setInt(2, idSession);
+		query1.setInt(1, getLastId("voto.candidates")+1);
+		query1.setInt(2, getId("voto.session", session));
         query1.setString(3, candidate);
         query1.setBoolean(4, isGroup);
-        PreparedStatement query2 = conn.prepareStatement("insert into voto.vote(idsession, idcandidates, preferenza) values(?, ?, 0)");
-        query2.setInt(1, idSession);
-        query2.setInt(2, idCandidate);
         @SuppressWarnings("unused")
 		boolean res = query1.execute();
-        res = query2.execute();
 	}
-	
 	
 	public static void getSessions(MenuButton scegliSessione) throws SQLException {
 		scegliSessione.getItems().clear();
