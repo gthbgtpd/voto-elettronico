@@ -64,6 +64,26 @@ public class UserViewDao {
     	}
 	}
 	
+		public static Votable getCandidate(String nameCandidate) throws SQLException {
+		Connection conn = getConnection();
+		String sql = "select * from voto.candidates as c where c.name=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, nameCandidate);
+		ResultSet r = stmt.executeQuery();
+		Votable v = null;
+		while(r.next()) {
+			int id = r.getInt("id");
+			boolean isParty = r.getBoolean("isparty");
+			if (isParty) {
+				v = new Gruppo(id, nameCandidate);
+			} else {
+				v = new Candidato(id, nameCandidate);
+			}
+		}
+		conn.close();
+		return v;
+	}
+	
 		
 	public static SessioneVoto getVotingSession(String nameSession) throws SQLException {
 		Connection con = getConnection();
