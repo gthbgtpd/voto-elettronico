@@ -13,7 +13,7 @@ public class ModalitaVotoContext {
 	public void setStrategy(String nomeModalitaVoto) {
 		this.nomeModalitaVoto = nomeModalitaVoto;
 		switch (nomeModalitaVoto) {
-			case "Ordinario": // doveva essere ordinale, è da cambiare
+			case "Ordinale":
 				modalitaVoto = new ConcreteStrategyOrdinale();
 				break;
 			case "Categorico":
