@@ -89,6 +89,7 @@ public class UserViewController {
     @FXML
     void handleAddToLst(ActionEvent event) {
     	if (event.getSource()==addToLst) {
+    		if (ListViewVotableUnordered.getSelectionModel().getSelectedItem().equals(null)) return;
     		ListViewVotableOrdered.getItems().add(ListViewVotableUnordered.getSelectionModel().getSelectedItem());
     	}
     }
@@ -106,6 +107,8 @@ public class UserViewController {
         		SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
         		if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
 					// inserimento di un pane di errore
+        			ScegliSessioneAperta.setText("Sessioni di voto aperte");
+            		SelezionaPreferenza.setText("Seleziona preferenza");
 					return;
 				}
 				String nameCandidate = SelezionaPreferenza.getText();
@@ -116,6 +119,7 @@ public class UserViewController {
 				for (Votable v : preferenzeAggiornate.keySet()) {
 					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
 				}
+				UserViewDao.setUserHasVoted(idUser, selected.getId());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -143,6 +147,9 @@ public class UserViewController {
 				SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
 				if (UserViewDao.getUserHasVoted(idUser, selected.getId())) {
 					// inserimento di un pane di errore
+					ScegliSessioneAperta.setText("Sessioni di voto aperte");
+		    		ListViewVotableOrdered.getItems().clear();
+		    		ListViewVotableUnordered.getItems().clear();
 					return;
 				}
 				List<Votable> preferences = new ArrayList<>();
@@ -154,6 +161,7 @@ public class UserViewController {
 				for (Votable v : preferenzeAggiornate.keySet()) {
 					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
 				}
+				UserViewDao.setUserHasVoted(idUser, selected.getId());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -163,6 +171,7 @@ public class UserViewController {
     		ListViewVotableUnordered.getItems().clear();
     	}
     }
+
 
     @FXML
     void handleVotoReferendum(ActionEvent event) {
