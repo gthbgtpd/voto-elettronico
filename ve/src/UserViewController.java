@@ -99,7 +99,20 @@ public class UserViewController {
     @FXML
     void handleVotoCategorico(ActionEvent event) {
     	if (event.getSource()==votoCategoricoButton) {
-    		//da fare
+    		String sessioneVotoScelta = ScegliSessioneAperta.getText();
+        	try {
+        		SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
+				String nameCandidate = SelezionaPreferenza.getText();
+				List<Votable> preferences = new ArrayList<>();
+				Votable candidate = UserViewDao.getCandidate(nameCandidate);
+				preferences.add(candidate);
+				Map<Votable, Integer> preferenzeAggiornate = selected.vota(preferences);
+				for (Votable v : preferenzeAggiornate.keySet()) {
+					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
     		ScegliSessioneAperta.setText("Sessioni di voto aperte");
     		SelezionaPreferenza.setText("Seleziona preferenza");
     	}
@@ -119,7 +132,22 @@ public class UserViewController {
     @FXML
     void handleVotoOrdinale(ActionEvent event) {
     	if (event.getSource()==votoOrdinaleButton) {
-    		//da fare
+    		String sessioneVotoScelta = ScegliSessioneAperta.getText();
+        	try {
+				SessioneVoto selected = UserViewDao.getVotingSession(sessioneVotoScelta);
+				List<Votable> preferences = new ArrayList<>();
+				for (String nameCandidate : ListViewVotableOrdered.getItems()) {
+					Votable candidate = UserViewDao.getCandidate(nameCandidate);
+					preferences.add(candidate);
+				}
+				Map<Votable, Integer> preferenzeAggiornate = selected.vota(preferences);
+				for (Votable v : preferenzeAggiornate.keySet()) {
+					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		ScegliSessioneAperta.setText("Sessioni di voto aperte");
     		ListViewVotableOrdered.getItems().clear();
     		ListViewVotableUnordered.getItems().clear();
