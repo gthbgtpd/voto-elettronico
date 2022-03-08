@@ -198,4 +198,49 @@ public class AdminViewDao {
 		
 		return w;
 	}
+
+
+ 	public static void addCandidateParty(String partito, String candidato) throws SQLException {
+ 		Connection conn = getConnection();
+ 		int idCandidato = getId("voto.candidates", candidato);
+ 		int idPartito = getId("voto.candidates", partito);
+ 		PreparedStatement query = conn.prepareStatement("insert into voto.partytable(idparty, idpartymember) values(?, ?)");
+ 		query.setInt(1, idPartito);
+ 		query.setInt(2, idCandidato);
+ 		query.execute();
+ 	}
+
+ 	public static void getCandidates(MenuButton scegliCandidato) throws SQLException {
+ 		scegliCandidato.getItems().clear();
+ 		List<String> l = new ArrayList<>();
+ 		Connection conn = getConnection();
+ 		String sql = "select name from voto.candidates as c where c.isparty = 0" ;
+ 		PreparedStatement query = conn.prepareStatement(sql);
+ 		ResultSet r = query.executeQuery();
+ 		while(r.next()) {
+ 			l.add(r.getString("name"));
+ 		}
+
+ 		for (String i:l) {
+     		MenuItem session = new MenuItem(i);
+     		scegliCandidato.getItems().add(session);
+     	}
+ 	}
+
+ 	public static void getParties(MenuButton scegliPartito) throws SQLException {
+ 		scegliPartito.getItems().clear();
+ 		List<String> l = new ArrayList<>();
+ 		Connection conn = getConnection();
+ 		String sql = "select name from voto.candidates as c where c.isparty = 1" ;
+ 		PreparedStatement query = conn.prepareStatement(sql);
+ 		ResultSet r = query.executeQuery();
+ 		while(r.next()) {
+ 			l.add(r.getString("name"));
+ 		}
+
+ 		for (String i:l) {
+     		MenuItem session = new MenuItem(i);
+     		scegliPartito.getItems().add(session);
+     	}
+ 	}
 }
