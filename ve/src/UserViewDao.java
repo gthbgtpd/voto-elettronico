@@ -46,7 +46,7 @@ public class UserViewDao {
         while ( res.next() ) {
         	id = res.getInt(1);
         }
-		PreparedStatement query1 = conn.prepareStatement("update voto.vote as v set v.preferenza=? where v.idcandidates=?");
+		PreparedStatement query1 = conn.prepareStatement("update voto.vote set preferenza=? where idcandidates=?");
         query1.setInt(1, value);
         query1.setInt(2, id);
         @SuppressWarnings("unused")
