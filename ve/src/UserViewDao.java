@@ -170,7 +170,7 @@ public class UserViewDao {
 		}
 		sf.setVotes(votes);
 		con.close();
-		System.out.println(sf.getVotingSession());
+		//System.out.println(sf.getVotingSession());
 		return sf.getVotingSession();
 	}
 	
