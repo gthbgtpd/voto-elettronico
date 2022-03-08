@@ -176,17 +176,15 @@ public class UserViewDao {
 	
 	public static void updateVotingSession(SessioneVoto s) throws SQLException {
 		Connection con = getConnection();
-		String firstQuery = "update voto.session as s set s.name = ?, s.modevote = ?, s.isopen = ?, s.modewin = ?, s.fasescrutinio = ?, s.dataapertura = ?, s.datachiusura = ?, s.howmanyhavevoted = ? where s.id=?";
+		String firstQuery = "update voto.session as s set s.name = ?, s.modevote = ?, s.isopen = ?, s.modewin = ?, s.fasescrutinio = ?, s.howmanyhavevoted = ? where s.id=?";
 		PreparedStatement query = con.prepareStatement(firstQuery);
 		query.setString(1, s.getName());
 		query.setString(2, s.getTipoModalitaVoto());
 		query.setBoolean(3, s.isOpen());
 		query.setString(4, s.getTipoDefinizioneVincitore());
 		query.setBoolean(5, s.isScrutinyPhase());
-		query.setDate(6, java.sql.Date.valueOf( s.getBeginningDate().toString())); // non ne sono convinto, potrebbe implodere tutto ma l'alternativa che volevo usare è deprecata
-		query.setDate(7, java.sql.Date.valueOf( s.getEndingDate().toString())); // non ne sono convinto, potrebbe implodere tutto ma l'alternativa che volevo usare è deprecata
-		query.setInt(8, s.getHowManyHaveVoted());
-		query.setInt(9, s.getId());
+		query.setInt(6, s.getHowManyHaveVoted());
+		query.setInt(7, s.getId());
 		query.execute();
 		query.close();
 	}
