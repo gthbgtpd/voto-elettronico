@@ -72,6 +72,9 @@ public class AdminViewController {
     @FXML private MenuItem mMaggioranzaAss;
     @FXML private MenuItem mRefConQ;
     @FXML private MenuItem mRefSenzaQ;
+	
+    private int idUser;
+    private Logger log;
     
 //menuBar
     @FXML
@@ -129,6 +132,7 @@ public class AdminViewController {
     @FXML
     void handleCreaSessione(ActionEvent event) throws SQLException {
     	if (event.getSource()==creaSessione) {
+		log.info("Utente con ID: " + idUser + " ha creato la sessione: " + nameSession.getText());
     		AdminViewDao.createSession(nameSession.getText(), modalitaVoto.getText(), modalitaVincita.getText());
     		nameSession.setText("");
     		modalitaVoto.setText("Modalità  di voto");
@@ -151,6 +155,7 @@ public class AdminViewController {
     		if ((dataChiusura.getText()).length()>1) {
     			dataClose = Date.valueOf(dataChiusura.getText());
     		}
+		log.info("Utente con ID: " + idUser + " ha modificato la sessione: " + mScegliSessione.getText());
     		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), dataOpen, dataClose);
     		mScegliSessione.setText("Sessione");
     		modificaNomeSessione.setText("");
@@ -172,6 +177,7 @@ public class AdminViewController {
     @FXML
     void handleAggiungiCandidato(ActionEvent event) throws SQLException {
     	if (event.getSource()==aggiungiCandidato) {
+		log.info("Utente con ID: " + idUser + " ha aggiunto il candidato " + candidates.getText() + " nella sessione: " + aScegliSessione.getText());
     		AdminViewDao.addCandidate(aScegliSessione.getText(), candidates.getText(), isGroup.isSelected());
     		aScegliSessione.setText("Sessione");
     		candidates.setText("");
@@ -183,6 +189,7 @@ public class AdminViewController {
      void handleAggiungiCandidatoPartito(ActionEvent event) throws SQLException {
      	if (event.getSource()==aggiungiCandidatoPartito) {
      		if (ScegliPartito.getText().equals(null) || ScegliPartito.getText().equals(null)) return;
+		log.info("Utente con ID: " + idUser + " ha aggiunto il candidato " + ScegliCandidato.getText() + " nel partito: " + ScegliPartito.getText());
      		AdminViewDao.addCandidateParty(ScegliPartito.getText(), ScegliCandidato.getText());
      		ScegliPartito.setText("Partito");
      		ScegliCandidato.setText("Candidato");
@@ -193,9 +200,11 @@ public class AdminViewController {
     @FXML
     void handleVisualizza(ActionEvent event) throws SQLException {
     	if (event.getSource()==visualizza) {
+		log.info("Utente con ID: " + idUser + " ha visualizzato gli esiti della sessione: " + vScegliSessione.getText());
     		ObservableList<Vote> lst = FXCollections.observableArrayList();
     		List<List<String>> v;
     		try {
+			
     			v = AdminViewDao.getVote(vScegliSessione.getText());
     			for (List<String> j:v) {
         			lst.add(new Vote(j.get(0), j.get(1), j.get(2)));
@@ -275,6 +284,14 @@ public class AdminViewController {
     	AdminViewSetting.selectedMenuButtonModify(mScegliSessione, modificaModalitaVoto, modificaModalitaVincita);
     	AdminViewSetting.selectedMenuButton(aScegliSessione);
     	AdminViewSetting.selectedMenuButton(vScegliSessione);
+	idUser = 0; // dovrà essere passato da una precedente vista e serve per le operazioni di logging
+    	log = java.util.logging.Logger.getLogger(this.getClass().getName());
+    	FileHandler fileHandler = new FileHandler("operations.log");
+    	SimpleFormatter formatter = new SimpleFormatter();  
+    	fileHandler.setFormatter(formatter); 
+    	log.addHandler(fileHandler);
+    	log.setUseParentHandlers(false);
+    	log.info("Utente con ID: " + idUser + " ha inizializzato il sistema");
     }
     
     @FXML
