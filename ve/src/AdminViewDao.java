@@ -62,7 +62,7 @@ public class AdminViewDao {
 	
 	public static void createSession(String name, String modeVote, String modeWin) throws SQLException {
 		Connection conn = getConnection();
-		PreparedStatement query1 = conn.prepareStatement("insert into voto.session(id, name, modeVote, modeWin) values(?, ?, ?, ?)");
+		PreparedStatement query1 = conn.prepareStatement("insert into voto.session(id, name, modeVote, modeWin, howmanyhavevoted) values(?, ?, ?, ?, 0)");
 		query1.setInt(1, getLastId("voto.session")+1);
         query1.setString(2, name);
         query1.setString(3, modeVote);
