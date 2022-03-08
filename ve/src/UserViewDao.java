@@ -111,13 +111,16 @@ public class UserViewDao {
 			boolean scrutinyPhase = res.getBoolean("fasescrutinio");
 			Date beginningDate = res.getDate("dataapertura");
 			Date endingDate = res.getDate("datachiusura");
+			int howManyHaveVoted = res.getInt("howmanyhavevoted");
 			sf.setId(idSessione);
+			sf.setName(nameSession);
 			sf.setDefinizioneVincitore(modeWin);
 			sf.setBeginningDate(beginningDate);
 			sf.setEndingDate(endingDate);
 			sf.setScrutinyPhase(scrutinyPhase);
 			sf.setOpen(isOpen);
 			sf.setModalitaVotoName(modeVote);
+			sf.setHowManyHaveVoted(howManyHaveVoted);
 		}
 		s.close();
 		String secondQuery = "SELECT * FROM voto.candidates as c WHERE c.idsession = ?";
@@ -167,7 +170,25 @@ public class UserViewDao {
 		}
 		sf.setVotes(votes);
 		con.close();
+		System.out.println(sf.getVotingSession());
 		return sf.getVotingSession();
+	}
+	
+	public static void updateVotingSession(SessioneVoto s) throws SQLException {
+		Connection con = getConnection();
+		String firstQuery = "update voto.session as s set s.name = ?, s.modevote = ?, s.isopen = ?, s.modewin = ?, s.fasescrutinio = ?, s.dataapertura = ?, s.datachiusura = ?, s.howmanyhavevoted = ? where s.id=?";
+		PreparedStatement query = con.prepareStatement(firstQuery);
+		query.setString(1, s.getName());
+		query.setString(2, s.getTipoModalitaVoto());
+		query.setBoolean(3, s.isOpen());
+		query.setString(4, s.getTipoDefinizioneVincitore());
+		query.setBoolean(5, s.isScrutinyPhase());
+		query.setDate(6, java.sql.Date.valueOf( s.getBeginningDate().toString())); // non ne sono convinto, potrebbe implodere tutto ma l'alternativa che volevo usare è deprecata
+		query.setDate(7, java.sql.Date.valueOf( s.getEndingDate().toString())); // non ne sono convinto, potrebbe implodere tutto ma l'alternativa che volevo usare è deprecata
+		query.setInt(8, s.getHowManyHaveVoted());
+		query.setInt(9, s.getId());
+		query.execute();
+		query.close();
 	}
 	
 	public static boolean getUserHasVoted (int idUser, int idSession) throws SQLException {
