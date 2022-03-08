@@ -114,6 +114,8 @@ public class UserViewController {
 	   				for (Votable v : preferenzeAggiornate.keySet()) {
 	   					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
 	   				}
+				UserViewDao.setUserHasVoted(idUser, selected.getId());
+				UserViewDao.updateVotingSession(selected);
 				} else {
 					//Mostra pane
 				}
@@ -141,6 +143,8 @@ public class UserViewController {
     				for (Votable v : preferenzeAggiornate.keySet()) {
     					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
     				}
+				UserViewDao.setUserHasVoted(idUser, selected.getId());
+				UserViewDao.updateVotingSession(selected);
 				} else {
 					//Mostra pane
 				}
@@ -169,6 +173,8 @@ public class UserViewController {
 					for (Votable v : preferenzeAggiornate.keySet()) {
 						UserViewDao.putVote(v, preferenzeAggiornate.get(v));
 					}
+				UserViewDao.setUserHasVoted(idUser, selected.getId());
+				UserViewDao.updateVotingSession(selected);
 				} else {
 					//Mostra pane
 				}
@@ -202,6 +208,8 @@ public class UserViewController {
     				for (Votable v : preferenzeAggiornate.keySet()) {
     					UserViewDao.putVote(v, preferenzeAggiornate.get(v));
     				}
+				UserViewDao.setUserHasVoted(idUser, selected.getId());
+				UserViewDao.updateVotingSession(selected);
 				} else {
 					//mostra pane
 				}
