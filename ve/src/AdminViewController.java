@@ -1,8 +1,13 @@
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -132,9 +137,9 @@ public class AdminViewController {
     @FXML
     void handleCreaSessione(ActionEvent event) throws SQLException {
     	if (event.getSource()==creaSessione) {
-		log.info("Utente con ID: " + idUser + " ha creato la sessione: " + nameSession.getText());
-    		AdminViewDao.createSession(nameSession.getText(), modalitaVoto.getText(), modalitaVincita.getText());
-    		nameSession.setText("");
+		AdminViewDao.createSession(nameSession.getText(), modalitaVoto.getText(), modalitaVincita.getText());
+    		log.info("Utente con ID: " + idUser + " ha creato la sessione: " + nameSession.getText());
+		nameSession.setText("");
     		modalitaVoto.setText("Modalità  di voto");
     		modalitaVincita.setText("Modalità  di vincita");
     		
@@ -155,9 +160,10 @@ public class AdminViewController {
     		if ((dataChiusura.getText()).length()>1) {
     			dataClose = Date.valueOf(dataChiusura.getText());
     		}
-		log.info("Utente con ID: " + idUser + " ha modificato la sessione: " + mScegliSessione.getText());
+		
     		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), dataOpen, dataClose);
-    		mScegliSessione.setText("Sessione");
+    		log.info("Utente con ID: " + idUser + " ha modificato la sessione: " + mScegliSessione.getText());
+		mScegliSessione.setText("Sessione");
     		modificaNomeSessione.setText("");
     		modificaModalitaVoto.setText("Modalità  di voto");
     		modificaModalitaVincita.setText("Modalità  di vincita");
@@ -177,8 +183,8 @@ public class AdminViewController {
     @FXML
     void handleAggiungiCandidato(ActionEvent event) throws SQLException {
     	if (event.getSource()==aggiungiCandidato) {
+		AdminViewDao.addCandidate(aScegliSessione.getText(), candidates.getText(), isGroup.isSelected());
 		log.info("Utente con ID: " + idUser + " ha aggiunto il candidato " + candidates.getText() + " nella sessione: " + aScegliSessione.getText());
-    		AdminViewDao.addCandidate(aScegliSessione.getText(), candidates.getText(), isGroup.isSelected());
     		aScegliSessione.setText("Sessione");
     		candidates.setText("");
     		isGroup.setSelected(false);
@@ -189,8 +195,8 @@ public class AdminViewController {
      void handleAggiungiCandidatoPartito(ActionEvent event) throws SQLException {
      	if (event.getSource()==aggiungiCandidatoPartito) {
      		if (ScegliPartito.getText().equals(null) || ScegliPartito.getText().equals(null)) return;
+		AdminViewDao.addCandidateParty(ScegliPartito.getText(), ScegliCandidato.getText());
 		log.info("Utente con ID: " + idUser + " ha aggiunto il candidato " + ScegliCandidato.getText() + " nel partito: " + ScegliPartito.getText());
-     		AdminViewDao.addCandidateParty(ScegliPartito.getText(), ScegliCandidato.getText());
      		ScegliPartito.setText("Partito");
      		ScegliCandidato.setText("Candidato");
      	}
@@ -285,11 +291,26 @@ public class AdminViewController {
     	AdminViewSetting.selectedMenuButton(aScegliSessione);
     	AdminViewSetting.selectedMenuButton(vScegliSessione);
 	idUser = 0; // dovrà essere passato da una precedente vista e serve per le operazioni di logging
-    	log = java.util.logging.Logger.getLogger(this.getClass().getName());
-    	FileHandler fileHandler = new FileHandler("operations.log");
-    	SimpleFormatter formatter = new SimpleFormatter();  
-    	fileHandler.setFormatter(formatter); 
-    	log.addHandler(fileHandler);
+	log = java.util.logging.Logger.getLogger(this.getClass().getName());
+    	FileHandler fh;
+    	java.util.Date today = new java.util.Date();
+    	try {
+    		@SuppressWarnings("deprecation")
+		String day = "Day - " + today.getDate() + "-" + today.getMonth() + "-" + (1900 + today.getYear()) + " TimeInit - " + today.getHours() + "." + today.getMinutes() + "." + today.getSeconds();
+    		String sep = System.getProperty("file.separator");
+    		File f = new File("logs" + sep + day + sep + "AdminOperations.log");
+    		f.getParentFile().getParentFile().mkdir();
+    		f.getParentFile().mkdir();
+    		f.createNewFile();
+    		//System.out.println("I log verranno scritti in: " + f.getAbsolutePath());
+            	fh = new FileHandler(f.getPath());
+            	SimpleFormatter formatter = new SimpleFormatter();  
+        	fh.setFormatter(formatter); 
+        	log.addHandler(fh);
+        } catch (IOException | SecurityException e) {
+        	e.printStackTrace();
+        	System.out.println("Errore: non è stato possibile creare il file di Log, le operazioni pertanto non verranno loggate");
+        }
     	log.setUseParentHandlers(false);
     	log.info("Utente con ID: " + idUser + " ha inizializzato il sistema");
     }
