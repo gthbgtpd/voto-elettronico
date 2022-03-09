@@ -144,6 +144,10 @@ public class SessioneVoto {
 	public Date getEndingDate() {
 		return endingDate;
 	}
+	
+	public boolean isScrutinyPhase() {
+		return isScrutinyPhase;
+	}
 
 	public void setEndingDate(Date endingDate) {
 		this.endingDate = endingDate;
