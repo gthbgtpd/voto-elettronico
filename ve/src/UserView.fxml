@@ -43,6 +43,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserViewController">
   <children>
@@ -100,6 +101,26 @@
                               <CheckBox fx:id="referendumPro" layoutX="22.0" layoutY="41.0" mnemonicParsing="false" text="Voto a favore" />
                               <CheckBox fx:id="referendumContro" layoutX="146.0" layoutY="41.0" mnemonicParsing="false" text="Voto contro" />
                               <Button fx:id="votoReferendumButton" layoutX="271.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleVotoReferendum" text="Vota" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="giaVotatoPane" prefHeight="299.0" prefWidth="597.0" visible="false">
+                           <children>
+                              <Label layoutX="118.0" layoutY="54.0" text="Elettore ha già votato!">
+                                 <font>
+                                    <Font size="37.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="tornaIndietro1" layoutX="253.0" layoutY="178.0" mnemonicParsing="false" onAction="#handleTornaIndietro1" text="Torna indietro" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="confermaVotoPane" prefHeight="299.0" prefWidth="597.0" visible="false">
+                           <children>
+                              <Label layoutY="57.0" text="La votazione é avvenuta con successo!">
+                                 <font>
+                                    <Font size="35.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="tornaIndietro2" layoutX="270.0" layoutY="176.0" mnemonicParsing="false" onAction="#handleTornaIndietro2" text="Torna indietro" />
                            </children>
                         </Pane>
                      </children>

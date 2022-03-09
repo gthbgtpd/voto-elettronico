@@ -75,6 +75,18 @@ public class UserViewController {
     private Button addToLst;
 	
     private int idUser;
+    
+    @FXML
+    private Pane giaVotatoPane;
+    
+    @FXML
+    private Button tornaIndietro1;
+    
+    @FXML
+    private Pane confermaVotoPane;
+    
+    @FXML
+    private Button tornaIndietro2;
 
     @FXML
     void handleVota(ActionEvent event) {
@@ -116,8 +128,9 @@ public class UserViewController {
 	   				}
 				UserViewDao.setUserHasVoted(idUser, selected.getId());
 				UserViewDao.updateVotingSession(selected);
+				confermaVotoPane.setVisible(true);
 				} else {
-					//Mostra pane
+					giaVotatoPane.setVisible(true);
 				}
     		} catch (SQLException e) {
     			e.printStackTrace();
@@ -145,8 +158,9 @@ public class UserViewController {
     				}
 				UserViewDao.setUserHasVoted(idUser, selected.getId());
 				UserViewDao.updateVotingSession(selected);
+				confermaVotoPane.setVisible(true);
 				} else {
-					//Mostra pane
+					giaVotatoPane.setVisible(true);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -175,8 +189,9 @@ public class UserViewController {
 					}
 				UserViewDao.setUserHasVoted(idUser, selected.getId());
 				UserViewDao.updateVotingSession(selected);
+				confermaVotoPane.setVisible(true);
 				} else {
-					//Mostra pane
+					giaVotatoPane.setVisible(true);
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -210,8 +225,9 @@ public class UserViewController {
     				}
 				UserViewDao.setUserHasVoted(idUser, selected.getId());
 				UserViewDao.updateVotingSession(selected);
+				confermaVotoPane.setVisible(true);
 				} else {
-					//mostra pane
+					giaVotatoPane.setVisible(true);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -219,6 +235,20 @@ public class UserViewController {
         	ScegliSessioneAperta.setText("Sessioni di voto aperte");
     		referendumPro.setSelected(false);
     		referendumContro.setSelected(false);
+    	}
+    }
+    
+    @FXML
+    void handleTornaIndietro1(ActionEvent event) {
+    	if (event.getSource()==tornaIndietro1) {
+    		giaVotatoPane.setVisible(false);
+    	}
+    }
+    
+    @FXML
+    void handleTornaIndietro2(ActionEvent event) {
+    	if (event.getSource()==tornaIndietro2) {
+    		confermaVotoPane.setVisible(false);
     	}
     }
     
