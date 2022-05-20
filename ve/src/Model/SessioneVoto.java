@@ -23,12 +23,14 @@ public class SessioneVoto {
 	private Map<Votable, Integer> votes;
 
     /**
-     * A variable that stores whether the voting session is open or not.
+     * A variable that stores whether the voting session is open or not. 
+	 * If it's open than the user will be able to vote
      */
 	private boolean isOpen;
     
     /**
      * A variable that stores whether the voting session is in the scrutiny phase or not.
+	 * If the scrutiny phase has begun, the users won't be able to vote.
      */
 	private boolean isScrutinyPhase;
     
