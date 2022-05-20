@@ -105,7 +105,6 @@ public class SessioneVoto {
         candidates.addAll(v);
     }
 
-
     /**
 	 * Adds a Votable Candidate to the candidates list
 	 * 
@@ -130,7 +129,13 @@ public class SessioneVoto {
      */
     public void endVotingSession() {
     	isOpen = false;
-    	isScrutinyPhase = true;
+    }
+
+	/**
+	 * Starts the scrutiny phase
+     */
+	public void beginScrutinyPhase()  {
+		isScrutinyPhase = true;
     }
 
 	/**
@@ -196,7 +201,6 @@ public class SessioneVoto {
 		return isScrutinyPhase;
 	}
 
-	
 	/**
 	 * Returns the number of people who have voted
 	 * 
@@ -213,6 +217,7 @@ public class SessioneVoto {
 	 * @param howManyHaveVoted This is the number of people who have voted on the VotingSession.
 	 */
 	public void setHowManyHaveVoted(int howManyHaveVoted) {
+		if (howManyHaveVoted < 0) throw new IllegalArgumentException("Il numero di persone che hanno votato non può assumere valori negativi");
 		this.howManyHaveVoted = howManyHaveVoted;
 	}
 
