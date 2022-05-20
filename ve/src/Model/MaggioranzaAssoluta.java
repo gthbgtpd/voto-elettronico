@@ -6,7 +6,7 @@ public class MaggioranzaAssoluta implements ModalitaVincitaStrategy {
 
 	/**
 	 * Post-condizioni: se il candidato che ha raggiunto il numero massimo di voti ha ottenuto la preferenza di almeno il 50% +1 dei voti
-	 * 					allora verrà restituito quello specificao candidato, altrimenti verrà restituito un valore null.
+	 * 					allora verrà restituito quello specifico candidato, altrimenti verrà restituito un valore null.
 	 */
 	@Override
 	public Votable definizioneVincitore(Map<Votable, Integer> votes, int numVoters) {
