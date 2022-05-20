@@ -207,7 +207,7 @@ public class SessioneVoto {
 	}
 
 	/**
-	 * This function sets the value of the variable howManyHaveVoted to the value of the parameter
+	 * Sets the value of the variable howManyHaveVoted to the value of the parameter
 	 * howManyHaveVoted
 	 * 
 	 * @param howManyHaveVoted This is the number of people who have voted on the VotingSession.
@@ -217,7 +217,7 @@ public class SessioneVoto {
 	}
 
 	/**
-	 * This function returns the name of the VotingSession.
+	 * Returns the name of the VotingSession.
 	 * 
 	 * @return The name of the VotingSession.
 	 */
@@ -225,26 +225,58 @@ public class SessioneVoto {
 		return name;
 	}
 
+	/**
+	 * Returns the name of the winning mode
+	 * 
+	 * @return The name of the winning mode.
+	 */
 	public String getTipoDefinizioneVincitore() {
 		return definizioneVincitore.getNomeModalitaVincita();
 	}
 
+	/**
+	 * Sets the winning mode strategy to the one specified by the parameter
+	 * 
+	 * @param nomeModalitaVincita the name of the strategy to use.
+	 */
 	public void setDefinizioneVincitore(String nomeModalitaVincita) {
 		this.definizioneVincitore.setStrategy(nomeModalitaVincita);
 	}
 	
+	/**
+	 * Returns the name of the voting method
+	 * 
+	 * @return The name of the voting method.
+	 */
 	public String getTipoModalitaVoto() {
 		return modalitaVoto.getNomeModalitaVoto();
 	}
 
+	/**
+	 * Sets the voting method strategy to the one specified by the parameter
+	 * 
+	 * @param nomeModalitaVincita the name of the strategy to use.
+	 */
 	public void setModalitaVoto(String nomeModalitaVoto) {
 		this.modalitaVoto.setStrategy(nomeModalitaVoto);
 	}
 	
+	 /**
+ 	 * Returns the winner of the voting session
+ 	 * 
+ 	 * @return The winner of the voting session.
+ 	 */
 	public Votable getWinner() {
 		return definizioneVincitore.definizioneVincitore(votes, howManyHaveVoted);
 	}
 	
+	/**
+	 * Takes a list of preferences and returns a map of votable objects and their
+	 * votes containing the updated preferences after the vote has occurred.
+	 * 
+	 * @param preferences the list of votables that the voter wants to vote for
+	 * @return A map of Votable and Integer containing the updated prefrences after the vote.
+	 */
 	public Map<Votable, Integer> vota(List<Votable> preferences) {
 		howManyHaveVoted++;
 		return modalitaVoto.vota(preferences, votes);
