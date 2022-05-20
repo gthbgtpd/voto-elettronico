@@ -125,17 +125,11 @@ public class SessioneVoto {
     }
 
     /**
-     * Ends the voting session
+     * Ends the voting session and starts the scrutiny phase
      */
     public void endVotingSession() {
     	isOpen = false;
-    }
-
-	/**
-	 * Starts the scrutiny phase
-     */
-	public void beginScrutinyPhase()  {
-		isScrutinyPhase = true;
+    	isScrutinyPhase = true;
     }
 
 	/**
