@@ -194,7 +194,6 @@ public class UserViewController {
 					giaVotatoPane.setVisible(true);
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         	ScegliSessioneAperta.setText("Sessioni di voto aperte");

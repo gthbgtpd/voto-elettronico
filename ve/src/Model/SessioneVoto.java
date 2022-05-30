@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * It's a class that represents a voting session
  */
-public class SessioneVoto {
+public class SessioneVoto implements AbstractSessioneVoto {
 
     /**
 	 * A unique identifier for the object.

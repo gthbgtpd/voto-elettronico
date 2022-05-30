@@ -36,21 +36,14 @@ public class Elettore extends Utente {
     	this.setNazione(nazione);
     	this.setSesso(sesso);
     }
-    
-    /**
-     * @param idSessioneVoto 
-     * @param v
-     */
-    public void esprimi_voto(int idSessioneVoto, Votable v) {
-        // TODO implement here
-    }
 
     /**
      * @return
      */
     public String toString() {
-        // TODO implement here
-        return "";
+        StringBuilder s = new StringBuilder();
+        s.append("Elettore ID: " + this.get_id() + " chiamato: " + this.get_name() + " di sesso: " + sesso + " nato il: " + dataCompleanno + " a: " + comune + " in: " + nazione);
+        return s.toString();
     }
 
 	public String getComune() {
