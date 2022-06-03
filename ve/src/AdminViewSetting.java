@@ -15,13 +15,11 @@ public class AdminViewSetting {
 	    		try {
 					modificaModalitaVoto.setText(AdminViewDao.getModeVote(i.getText()));
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	        	try {
 					modificaModalitaVincita.setText(AdminViewDao.getModeWin(i.getText()));
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	    	});
