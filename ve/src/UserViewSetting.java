@@ -24,7 +24,6 @@ public class UserViewSetting {
 						cdts = UserViewDao.getCandidates(menu.getText());
 						unrdLst.setItems(cdts);
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 		    	});
@@ -53,7 +52,6 @@ public class UserViewSetting {
 					    	});
 				    	}
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 		    	});
@@ -85,13 +83,11 @@ public class UserViewSetting {
 											cdtsFromParty = UserViewDao.getCandidatesFromParty(SelezionaPartito.getText());
 											SelezionaCandidatiPartito.setItems(cdtsFromParty);
 										} catch (SQLException e1) {
-											// TODO Auto-generated catch block
 											e1.printStackTrace();
 										}
 						    	});
 					    	}
 						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 		    	});

@@ -216,7 +216,6 @@ public class AdminViewController {
         			lst.add(new Vote(j.get(0), j.get(1), j.get(2)));
         		}
     		} catch (SQLException e1) {
-    			// TODO Auto-generated catch block
     			e1.printStackTrace();
     		}
     		
