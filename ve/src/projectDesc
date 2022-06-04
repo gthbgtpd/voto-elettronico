@@ -1,0 +1,16 @@
+Descrizione mappa UI:
+La UI è composta da tre finestre, ognuna delle quali contine diverse pagine. La navigazione avviene dalla LoginView alla AdminView o alla UserView in base alle credenziali inserite. In ogni finestra è possibile spostarsi da una pagina all'altra e le pagine vengono caricate e aggiornate ogni volta che si effettua l'iterazione con il database o si cambia pagina. La validità degli input è sempre controllata e in caso di errori viene mostrato un alert di errore.
+
+Descrizione Factory:
+Questo pattern viene utilizzato per creare l'istanza del prodotto SessioneVoto. Infatti la classe SessioneVotoFactory ha la responsabilità di creare l'oggetto SessioneVoto attraverso l'interfaccia Factory. In questo modo il cliente puo utilizzare diverse famiglie di prodotti senza conoscere le loro classi concrete, cioè, ogni famiglia avrà un concreteFactory per creare le istanze dei prodotti attraverso un'interfaccia comune Factory che sarà dalla conoscenza del cliente.
+
+Descrizione Controller:
+Questo pattern è il primo oggetto, oltre allo strato UI, a ricevere, coordinare e controllare un'operazione di sistema. Ha la responsabilità di ricevere il messaggio dalla UI e delegare il lavoro senza eseguirlo. Questo specifico pattern è stato utilizzato all'interno delle classi AdminViewController e UserViewController.
+
+Descrizione tabelle del database:
+-Vote: questa tabella rappresenta le preferenze espresse dagli elettori. Ogni preferenza è associata al id del candidato, per il quale si è espresso il voto, e al id della sessione di voto aperta.
+-Users: questa tabella rappresenta le credenziali degli utenti. Ogni utente ha un id univoco, un username, una password criptata e un type che puo essere "Admin" o "Elettore".
+-HasVoted: questa tabella rappresenta il vincolo di votare una volta sola. Per ogni elettore si ha un iduser che lo identifica, un idvotingsession che identifica la sessione di voto aperta e hasvoted che indica se l'elettore abbia votato o meno.
+
+Descrizione delle viste:
+-AdminView: questa pagina consente al gestore di creare e modificare una sessione di voto, inserire i candidati all'interno delle sessioni di voto e visualizzare i risultati. Per modificare le sessioni di voto o visualizzare i risultati, per prima cosa il gestore deve selezionare dal menù la sessione di voto che vuole modificare o del quale vuole vedere i risultati. Nel caso della modifica sarà caricata la sessione di voto selezionata con le informazioni che si possono modificare e nel caso di visualizzazione dei risultati saranno caricate le informazioni di voto relative alla sessione di voto selezionata.
