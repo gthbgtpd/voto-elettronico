@@ -253,9 +253,9 @@ public class UserViewController {
     
     @FXML
     void initialize() throws SQLException, ParseException {
-    	UserViewDao.getOpenSessions(ScegliSessioneAperta);
+		idUser = 0; // dovrà essere ricevuto da una precedente vista
+    	UserViewDao.getOpenSessions(ScegliSessioneAperta, idUser);
     	UserViewSetting.selectedMenuButton(ScegliSessioneAperta, ordinalePane, categoricoPane, categoricoPreferenzaPane, referendumPane, ListViewVotableUnordered, ListViewVotableUnordered, SelezionaPreferenza, SelezionaPartito, SelezionaCandidatiPartito);
-    	idUser = 0; // dovrà essere ricevuto da una precedente vista
     }
 
 }

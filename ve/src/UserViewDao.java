@@ -58,26 +58,27 @@ public class UserViewDao {
         return;
 	}
 	
-	public static void getOpenSessions(MenuButton scegliSessione) throws SQLException, ParseException {
+	public static void getOpenSessions(MenuButton scegliSessione, int idUtente) throws SQLException, ParseException {
 		openSessions();
 		closeSessions();
 		scegliSessione.getItems().clear();
 		List<String> l = new ArrayList<>();
 		Connection conn = getConnection();
-		String sql = "select s.name from voto.session as s where s.isopen=true" ;
+		// cerca tutte le sessioni di voto che sono aperte e il cui id non appare nella tabella hasvoted considerando l'id del utente che sta cercando di votare
+		String sql = "select s.name from voto.session as s where s.isopen=true and s.id not in (select h.idvotingsession from voto.hasvoted as h where h.iduser=?)" ;
 		PreparedStatement query = conn.prepareStatement(sql);
+		query.setInt(1, idUtente);
 		ResultSet r = query.executeQuery();
 		while(r.next()) {
 			l.add(r.getString("name"));
 		}
-		
 		for (String i:l) {
     		MenuItem session = new MenuItem(i);
         	scegliSessione.getItems().add(session);
     	}
 	}
 	
-		public static Votable getCandidate(String nameCandidate) throws SQLException {
+	public static Votable getCandidate(String nameCandidate) throws SQLException {
 		Connection conn = getConnection();
 		String sql = "select * from voto.candidates as c where c.name=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
