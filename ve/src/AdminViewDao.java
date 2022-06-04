@@ -266,6 +266,7 @@ public class AdminViewDao {
 		//System.out.println(sf.getVotingSession());
 		return sf.getVotingSession();
 	}	
+	
 	public static List<List<String>> getVote(String session) throws SQLException {
 		Connection conn = getConnection();
 		String sql = "select s.name, c.name, v.preferenza from voto.vote as v join voto.session as s on v.idsession=s.id join voto.candidates as c on v.idcandidates=c.id where v.idsession=?";

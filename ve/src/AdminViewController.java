@@ -162,7 +162,7 @@ public class AdminViewController {
     		if ((dataChiusura.getText()).length()>1) {
     			dataClose = Date.valueOf(dataChiusura.getText());
     		}
-		
+    		if (mScegliSessione.getText().equals("Sessione")) return;
     		AdminViewDao.modifySession(mScegliSessione.getText(), modificaNomeSessione.getText(), modificaModalitaVoto.getText(), modificaModalitaVincita.getText(), dataOpen, dataClose);
     		log.info("Utente con ID: " + idUser + " ha modificato la sessione: " + mScegliSessione.getText());
 		mScegliSessione.setText("Sessione");
@@ -185,6 +185,8 @@ public class AdminViewController {
     @FXML
     void handleAggiungiCandidato(ActionEvent event) throws SQLException {
     	if (event.getSource()==aggiungiCandidato) {
+    	if (aScegliSessione.getText().equals("Sessione")) return;
+    	if (AdminViewDao.getVotingSession(aScegliSessione.getText()).isOpen()) return; // se la sessione di voto è aperta non sarà possibile aggiungere altri candidati "in medias res"
 		AdminViewDao.addCandidate(aScegliSessione.getText(), candidates.getText(), isGroup.isSelected());
 		log.info("Utente con ID: " + idUser + " ha aggiunto il candidato " + candidates.getText() + " nella sessione: " + aScegliSessione.getText());
     		aScegliSessione.setText("Sessione");
@@ -196,7 +198,7 @@ public class AdminViewController {
     @FXML
      void handleAggiungiCandidatoPartito(ActionEvent event) throws SQLException {
      	if (event.getSource()==aggiungiCandidatoPartito) {
-     		if (ScegliPartito.getText().equals(null) || ScegliPartito.getText().equals(null)) return;
+     		if (ScegliPartito.getText().equals("Partito") || ScegliCandidato.getText().equals("Candidato")) return;
 		AdminViewDao.addCandidateParty(ScegliPartito.getText(), ScegliCandidato.getText());
 		log.info("Utente con ID: " + idUser + " ha aggiunto il candidato " + ScegliCandidato.getText() + " nel partito: " + ScegliPartito.getText());
      		ScegliPartito.setText("Partito");
@@ -211,13 +213,14 @@ public class AdminViewController {
 		log.info("Utente con ID: " + idUser + " ha visualizzato gli esiti della sessione: " + vScegliSessione.getText());
     		ObservableList<Vote> lst = FXCollections.observableArrayList();
     		List<List<String>> v;
+    		if (vScegliSessione.getText().equals("Sessione")) return;
     		SessioneVoto s = AdminViewDao.getVotingSession(vScegliSessione.getText());
     		try {
-			
     			v = AdminViewDao.getVote(vScegliSessione.getText());
     			for (List<String> j:v) {
+    				// WARNING: se il tipo di modalità di voto fosse ancora Ordinario causa refuso sarebbero problemi perché qui non funzionerebbe
     				if (s.getTipoModalitaVoto().equals("Ordinale")) {
-    					String votesPercentage = Integer.toString(Integer.parseInt(j.get(2)) / 100 * s.getHowManyHaveVoted());
+    					String votesPercentage = Integer.toString(Integer.parseInt(j.get(2)) / 100 * s.getHowManyHaveVoted()).substring(0, 5) + "%";
     					lst.add(new Vote(j.get(0), j.get(1), votesPercentage));
     				} else {
     					lst.add(new Vote(j.get(0), j.get(1), j.get(2)));
@@ -229,7 +232,7 @@ public class AdminViewController {
     		
     		table.getColumns().clear();
 	    	AdminViewSetting.setTable(table, lst);
-	    	// TODO: se la sessione di voto è in modalità scrutinio allora sarà possibile vedere il risultato
+	    	// se la sessione di voto è in modalità scrutinio allora sarà possibile vedere il risultato
 	    	if (s.isScrutinyPhase()) {
 	    		nomeVincitore.setText(s.getWinner().getName());
 	    		nomeVincitore.setVisible(true);
