@@ -35,6 +35,13 @@ public class LoginController {
 			String username = usr.getText();
 			String password = pss.getText();
 			String pwdDatabase = LoginDao.getPassword(username);
+			if (pwdDatabase == null) {
+				usr.setText("");
+				pss.setText("");
+				err1.setVisible(true);
+				err2.setVisible(true);
+				return;
+			}
 			int salt = LoginDao.getSalt(username);
 			password = password + Integer.toString(salt);
 			password = MD5Util.encrypt(password);
@@ -43,15 +50,19 @@ public class LoginController {
 	    		Window window = scene.getWindow();
 	    		Stage stage = (Stage) window;
 	    		Parent root;
+	    		//TODO: aggiungere logica per passare l'id del utente alla successiva pagina FXML
+	    		// l'ID è al momento contenuto nella variabile salt!
 				if ((LoginDao.getType(username)).equals("ADMIN")) {
-					root = FXMLLoader.load(getClass().getResource("AdminView.fxml"));
+					root = FXMLLoader.load(getClass().getResource("fxml/AdminView.fxml"));
 				} else {
-					root = FXMLLoader.load(getClass().getResource("UserView.fxml"));
+					root = FXMLLoader.load(getClass().getResource("fxml/UserView.fxml"));
 				}
 				stage.setTitle("voto elettronico");
 	            stage.setScene(new Scene(root, 800, 600));
 	            stage.show();
 			} else {
+				usr.setText("");
+				pss.setText("");
 				err1.setVisible(true);
 				err2.setVisible(true);
 			}

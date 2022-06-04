@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import Model.SessioneVoto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -209,11 +211,17 @@ public class AdminViewController {
 		log.info("Utente con ID: " + idUser + " ha visualizzato gli esiti della sessione: " + vScegliSessione.getText());
     		ObservableList<Vote> lst = FXCollections.observableArrayList();
     		List<List<String>> v;
+    		SessioneVoto s = AdminViewDao.getVotingSession(vScegliSessione.getText());
     		try {
 			
     			v = AdminViewDao.getVote(vScegliSessione.getText());
     			for (List<String> j:v) {
-        			lst.add(new Vote(j.get(0), j.get(1), j.get(2)));
+    				if (s.getTipoModalitaVoto().equals("Ordinale")) {
+    					String votesPercentage = Integer.toString(Integer.parseInt(j.get(2)) / 100 * s.getHowManyHaveVoted());
+    					lst.add(new Vote(j.get(0), j.get(1), votesPercentage));
+    				} else {
+    					lst.add(new Vote(j.get(0), j.get(1), j.get(2)));
+    				}
         		}
     		} catch (SQLException e1) {
     			e1.printStackTrace();
@@ -221,10 +229,11 @@ public class AdminViewController {
     		
     		table.getColumns().clear();
 	    	AdminViewSetting.setTable(table, lst);
-	    	
-	    	nomeVincitore.setVisible(true);
-	    	nomeVincitore.setText(AdminViewDao.getWinner(vScegliSessione.getText()));
-	    	
+	    	// TODO: se la sessione di voto è in modalità scrutinio allora sarà possibile vedere il risultato
+	    	if (s.isScrutinyPhase()) {
+	    		nomeVincitore.setText(s.getWinner().getName());
+	    		nomeVincitore.setVisible(true);
+	    	}
 	    	ObservableList<MenuItem> lm = vScegliSessione.getItems();
 	    	for (MenuItem i : lm) {
 				i.setOnAction(e -> {

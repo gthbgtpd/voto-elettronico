@@ -8,12 +8,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	
 	@Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        
-        primaryStage.setTitle("voto elettronico");
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/Login.fxml"));
+        root.setStyle("-fx-font-family: 'serif'");
+        primaryStage.setTitle("Login - Sistema di voto elettronico");
         primaryStage.setScene(new Scene(root, 800, 600));
-        
         primaryStage.show();
         
     }

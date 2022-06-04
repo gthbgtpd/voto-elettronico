@@ -1,3 +1,7 @@
+
+// connessione Zou: final String url = "jdbc:postgresql://localhost/votoelettronico?user=root&password=rootroot";
+// connessione Liuc: final String url = "jdbc:mysql://localhost/voto?user=root&password=rootroot";
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -5,14 +9,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import Model.Candidato;
+import Model.Gruppo;
+import Model.SessioneVoto;
+import Model.SessioneVotoFactory;
+import Model.Votable;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 
 public class AdminViewDao {
 	private static Connection getConnection() throws SQLException {
-	  	final String url = "jdbc:postgresql://localhost/votoelettronico?user=root&password=rootroot";
+		final String url = "jdbc:mysql://localhost/voto?user=root&password=rootroot";
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url);
@@ -175,6 +188,84 @@ public class AdminViewDao {
     	}
 	}
 	
+	public static SessioneVoto getVotingSession(String nameSession) throws SQLException {
+		Connection con = getConnection();
+		SessioneVotoFactory sf = new SessioneVotoFactory();
+		String firstQuery = "SELECT * FROM voto.session AS s WHERE s.name = ?";
+		PreparedStatement s = con.prepareStatement(firstQuery);
+		s.setString(1, nameSession);
+		ResultSet res = s.executeQuery();
+		int idSessione = 1; // valore di default nel caso il nome sia scorretto 
+		while(res.next()) {
+			idSessione = res.getInt("id");
+			String modeVote = res.getString("modevote");
+			boolean isOpen = res.getBoolean("isopen");
+			String modeWin = res.getString("modewin");
+			boolean scrutinyPhase = res.getBoolean("fasescrutinio");
+			Date beginningDate = res.getDate("dataapertura");
+			Date endingDate = res.getDate("datachiusura");
+			int howManyHaveVoted = res.getInt("howmanyhavevoted");
+			sf.setId(idSessione);
+			sf.setName(nameSession);
+			sf.setDefinizioneVincitore(modeWin);
+			sf.setBeginningDate(beginningDate);
+			sf.setEndingDate(endingDate);
+			sf.setScrutinyPhase(scrutinyPhase);
+			sf.setOpen(isOpen);
+			sf.setModalitaVotoName(modeVote);
+			sf.setHowManyHaveVoted(howManyHaveVoted);
+		}
+		s.close();
+		String secondQuery = "SELECT * FROM voto.candidates as c WHERE c.idsession = ?";
+		s = con.prepareStatement(secondQuery);
+		s.setInt(1, idSessione);
+		res = s.executeQuery();
+		Set<Votable> candidates = new HashSet<>();
+		while(res.next()) {
+			int idCandidate = res.getInt("id");
+			String name = res.getString("name");
+			boolean isParty = res.getBoolean("isparty");
+			Votable v;
+			if (isParty) {
+				// può essere un metodo a parte per aumentare il riuso 
+				Set<Candidato> candidatesInParty = new HashSet<>();
+				String thirdQuery = "SELECT * FROM voto.partytable as pt JOIN voto.candidates as c ON pt.idpartymember = c.id WHERE pt.idparty = ?";
+				s = con.prepareStatement(thirdQuery);
+				s.setInt(1, idCandidate);
+				ResultSet resCandidates = s.executeQuery();
+				while(resCandidates.next()) {
+					int idCandidateParty = resCandidates.getInt("id");
+					String nameCandidateParty = resCandidates.getString("name");
+					candidatesInParty.add(new Candidato(idCandidateParty, nameCandidateParty));
+				}
+				s.close();
+				// fine metodo in comune
+				v = new Gruppo(idCandidate, name, candidatesInParty);
+			} else {
+				v = new Candidato(idCandidate, name);
+			}
+			candidates.add(v);
+		}
+		s.close();
+		Map<Votable, Integer> votes = new HashMap<>();
+		for (Votable v : candidates) {
+			String fourthQuery = "SELECT * FROM voto.vote as v WHERE v.idsession = ? AND v.idcandidates = ?";
+			s = con.prepareStatement(fourthQuery);
+			s.setInt(1, idSessione);
+			s.setInt(2, v.getId());
+			res = s.executeQuery();
+			while (res.next()) {
+				int voti = res.getInt("preferenza");
+				votes.put(v, voti);
+			}
+			res.close();
+			s.close();
+		}
+		sf.setVotes(votes);
+		con.close();
+		//System.out.println(sf.getVotingSession());
+		return sf.getVotingSession();
+	}	
 	public static List<List<String>> getVote(String session) throws SQLException {
 		Connection conn = getConnection();
 		String sql = "select s.name, c.name, v.preferenza from voto.vote as v join voto.session as s on v.idsession=s.id join voto.candidates as c on v.idcandidates=c.id where v.idsession=?";
@@ -192,13 +283,6 @@ public class AdminViewDao {
 		}
 		return le;
 	}
-
-	public static String getWinner(String name) throws SQLException {
-		String w = "";
-		
-		return w;
-	}
-
 
  	public static void addCandidateParty(String partito, String candidato) throws SQLException {
  		Connection conn = getConnection();

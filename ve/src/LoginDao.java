@@ -1,10 +1,13 @@
 
+// connessione Zou: final String url = "jdbc:postgresql://localhost/votoelettronico?user=root&password=rootroot";
+// connessione Liuc: final String url = "jdbc:mysql://localhost/voto?user=root&password=rootroot";
+
 import java.sql.*;
 
 public class LoginDao {
 
 	private static Connection getConnection() throws SQLException {
-	  	final String url = "jdbc:postgresql://localhost/votoelettronico?user=root&password=rootroot";
+		final String url = "jdbc:mysql://localhost/voto?user=root&password=rootroot";
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url);
