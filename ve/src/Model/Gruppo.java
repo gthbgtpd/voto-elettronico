@@ -23,6 +23,10 @@ public class Gruppo implements Votable, Iterable<Candidato> {
 
     private Set<Candidato> candidates;
 
+    /*@ 
+    invariant candidates non_null;
+    @*/
+
     /**
      * Default constructor
      */

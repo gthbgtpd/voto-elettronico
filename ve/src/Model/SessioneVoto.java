@@ -7,6 +7,13 @@ import java.util.*;
  */
 public class SessioneVoto implements AbstractSessioneVoto {
 
+	//
+	/*@ 
+	invariant isOpen ==> !isScrutinyPhase &&
+	beginningDate < endingDate &6
+	howManyHaveVoted >= 0 &&
+	modalitaVoto non_null && definizioneVincitore non_null;
+	@*/
     /**
 	 * A unique identifier for the object.
 	 */ 
@@ -121,6 +128,9 @@ public class SessioneVoto implements AbstractSessioneVoto {
 	 * 
      * @throws IllegalBeginningVotingSession if the scrutiny phase has already started
      */
+	/*@ 
+	requires !isScrutinyPhase; 
+	@*/
 	public void beginVotingSession() throws IllegalBeginningVotingSession {
     	if (isScrutinyPhase) throw new IllegalBeginningVotingSession();
     	isOpen = true;
@@ -212,6 +222,9 @@ public class SessioneVoto implements AbstractSessioneVoto {
 	 * 
 	 * @param howManyHaveVoted This is the number of people who have voted on the VotingSession.
 	 */
+	/*@ 
+	requires howManyHaveVoted > 0;
+	@*/
 	public void setHowManyHaveVoted(int howManyHaveVoted) {
 		if (howManyHaveVoted < 0) throw new IllegalArgumentException("Il numero di persone che hanno votato non può assumere valori negativi");
 		this.howManyHaveVoted = howManyHaveVoted;
@@ -278,6 +291,9 @@ public class SessioneVoto implements AbstractSessioneVoto {
 	 * @param preferences the list of votables that the voter wants to vote for
 	 * @return A map of Votable and Integer containing the updated prefrences after the vote.
 	 */
+	/*@
+	requires preferences non_null && isOpen == True && isScrutinyPhase == False;
+	@*/
 	public Map<Votable, Integer> vota(List<Votable> preferences) {
 		howManyHaveVoted++;
 		return modalitaVoto.vota(preferences, votes);
